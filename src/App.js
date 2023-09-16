@@ -14,7 +14,7 @@ function App() {
   // KIỂM TRA NGƯỜI DÙNG ĐĂNG NHẬP
   useEffect(() => {
     let token = localStorage.getItem('token');
-    let socket = openSocket(config.URI);
+    let socket = openSocket(config.SOCKET);
     dispatch(shareSocket({socket}));
 
     if(!token) {
