@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import config from "../../../../configs/config.env";
 import { authSignin } from "../../../../store/store-auth";
 import useValidation from "../../../../hook/use-validation";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
@@ -33,7 +34,7 @@ const AuthSignInComponent = (props) => {
 
         if(emailValid.status && passwordValid.status) {
             try {
-                let res = await fetch("http://localhost:5000/api/auth/signin/admin", {
+                let res = await fetch(`${config.URI}auth/signin/admin`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

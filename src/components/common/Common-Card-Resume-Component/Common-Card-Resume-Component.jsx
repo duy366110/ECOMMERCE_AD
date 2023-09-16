@@ -7,7 +7,7 @@ const CommonCardResumeComponent = (props) => {
         <div className={classes['card-resume-component']}>
             <div>
                 <h2 className={classes['card-resume__value']}>
-                    {props.value} {props.currency && <sup>VND</sup> }
+                    {props?.value} {props.currency && <sup>VND</sup> }
                 </h2>
                 <h2 className={classes['card-resume__title']}>{props.title}</h2>
             </div>

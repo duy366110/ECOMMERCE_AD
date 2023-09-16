@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
+import config from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
 import { updateElementToTalOrder, updateCurrentPageOrder } from "../../../../store/store-pagination";
 import DashboardResumeComponent from "../utils/Dashboard-Resume-Component/Dashboard-Resume-Component";
@@ -22,10 +23,12 @@ const DashboardMainComponent = (props) => {
     const [resumTotalOrder, setResumTotalOrder] = useState(0);
     const { httpMethod } = useHttp();
 
+    console.log(config.URL);
+
     // PHƯƠNG THỨC LOAD ORDER
     const loadOrderHandler = async() => {
         httpMethod({
-            url: `http://localhost:5000/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
+            url: `${config.URI}admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
             method: 'GET',
             author: '',
             payload: null,
@@ -34,9 +37,12 @@ const DashboardMainComponent = (props) => {
             let { status, message, orders } = infor;
 
             if(status) {
+
+                console.log(orders);
+
                 for(let orderItem of orders) {
-                    orderItem.total = orderItem.order.reduce((acc, orderProduct) => {
-                        acc += Number(orderProduct.product.price.$numberDecimal) * Number(orderProduct.quantity);
+                    orderItem.total = orderItem?.order.reduce((acc, orderProduct) => {
+                        acc += Number(orderProduct.product?.price.$numberDecimal) * Number(orderProduct?.quantity);
                         return acc;
                     }, 0);
 
@@ -88,7 +94,7 @@ export default DashboardMainComponent;
 export const loadOrder = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/order/amount", {
+            let res = await fetch(`${config.URI}admin/order/amount`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -113,7 +119,7 @@ export const loadOrder = () => {
 export const loadUser = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch("http://localhost:5000/api/admin/user/amount", {
+            let res = await fetch(`${config.URI}admin/user/amount`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
