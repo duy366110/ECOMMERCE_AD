@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
+import config from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
 import useHttp from '../../../../../hook/use-http';
 import CommonButtonComponent from '../../../../common/Common-Button-Component/Common-Button-Component';
@@ -92,7 +93,7 @@ const DashboardEditProductComponent = (props) => {
             }
 
             httpMethod({
-                url: `http://localhost:5000/api/admin/product`,
+                url: `${config.URI}admin/product`,
                 method: 'PATCH',
                 author: '',
                 payload: productForm,
@@ -192,7 +193,7 @@ const loaderCategory = (request, params) => {
     return new Promise( async(resolve, reject) => {
         try {
 
-            let res = await fetch(`http://localhost:5000/api/admin/category`);
+            let res = await fetch(`${config.URI}admin/category`);
             if(!res.ok) {
                 let infor = await res.json();
                 throw Error(infor.message);
@@ -210,7 +211,7 @@ const loaderProduct = (product) => {
     return new Promise( async(resolve, reject) => {
         try {
 
-            let res = await fetch(`http://localhost:5000/api/admin/product/${product}`);
+            let res = await fetch(`${config.URI}admin/product/${product}`);
             if(!res.ok) {
                 let infor = await res.json();
                 throw Error(infor.message);
