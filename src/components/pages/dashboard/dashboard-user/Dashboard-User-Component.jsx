@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
+import config from "../../../../configs/config.env";
 import useHttp from '../../../../hook/use-http';
 import { updateElementToTalUser, updateCurrentPageUser } from "../../../../store/store-pagination";
 import CommonTableComponent from '../../../common/Common-Table-Component/Common-Table-Component';
@@ -30,7 +31,7 @@ const DashboardUserComponent = (props) => {
             dispatch(updateElementToTalUser({amount}));
 
             httpMethod({
-                url: `http://localhost:5000/api/admin/user/${pagination.user.elementOfPage}/${(pagination.user.elementOfPage * pagination.user.currentPage)}`,
+                url: `${config.URI}admin/user/${pagination.user.elementOfPage}/${(pagination.user.elementOfPage * pagination.user.currentPage)}`,
                 method: 'GET',
                 author: '',
                 payload: null
@@ -65,7 +66,7 @@ const DashboardUserComponent = (props) => {
 
         if(window.confirm('Are you sure delete delete account!')) {
             httpMethod({
-                url: "http://localhost:5000/api/admin/user",
+                url: `${config.URI}admin/user`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({user: id})
@@ -115,7 +116,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch("http://localhost:5000/api/admin/user/amount", {
+            let res = await fetch(`${config.URI}admin/user/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

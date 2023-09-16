@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import config from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
 import { updateElementToTalProduct, updateCurrentPageProduct } from "../../../../store/store-pagination";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
@@ -29,7 +30,7 @@ const DashboardProductComponent = (props) => {
             dispatch(updateElementToTalProduct({amount}));
 
             httpMethod({
-                url: `http://localhost:5000/api/admin/product/${pagination.product.elementOfPage}/${(pagination.product.elementOfPage * pagination.product.currentPage)}`,
+                url: `${config.URI}admin/product/${pagination.product.elementOfPage}/${(pagination.product.elementOfPage * pagination.product.currentPage)}`,
                 method: 'GET',
                 author: '',
                 payload: null
@@ -72,7 +73,7 @@ const DashboardProductComponent = (props) => {
 
         if(window.confirm('Are you sure delete product!')) {
             httpMethod({
-                url: "http://localhost:5000/api/admin/product",
+                url: `${config.URI}admin/product`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({product: id})
@@ -115,7 +116,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch("http://localhost:5000/api/admin/product/amount", {
+            let res = await fetch(`${config.URI}admin/product/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

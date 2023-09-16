@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import config from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
 import { updateElementToTalRole, updateCurrentPageRole } from "../../../../store/store-pagination";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
@@ -29,7 +30,7 @@ const DashboardRolesComponent = (props) => {
             dispatch(updateElementToTalRole({amount}));
 
             httpMethod({
-                url: `http://localhost:5000/api/admin/role/${pagination.role.elementOfPage}/${(pagination.role.elementOfPage * pagination.role.currentPage)}`,
+                url: `${config.URI}admin/role/${pagination.role.elementOfPage}/${(pagination.role.elementOfPage * pagination.role.currentPage)}`,
                 method: 'GET',
                 author: '',
                 payload: null
@@ -68,7 +69,7 @@ const DashboardRolesComponent = (props) => {
 
         if(window.confirm('Are you sure delete role!')) {
             httpMethod({
-                url: "http://localhost:5000/api/admin/role",
+                url:`${config.URI}admin/role`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({role: id})
@@ -111,7 +112,7 @@ export const loader = (request, params) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch("http://localhost:5000/api/admin/role/amount", {
+            let res = await fetch(`${config.URI}admin/role/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

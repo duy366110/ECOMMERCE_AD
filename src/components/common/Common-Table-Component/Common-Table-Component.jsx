@@ -99,11 +99,11 @@ const CommonTableComponent = (props) => {
                       <tr key={elm._id}>
                         <th scope="row">{((pagination.product.elementOfPage * pagination.product.currentPage) + index) + 1}</th>
                         <td>{elm.name}</td>
-                        <td>{Number(elm.price.$numberDecimal).toFixed(3)}</td>
+                        <td>{Number(elm?.price.$numberDecimal).toFixed(3)}</td>
                         <td>
-                          <img src={`http://localhost:5000/${elm.images[0]}`} alt="image product" />
+                          <img src={`http://localhost:5000/${elm?.images[0]}`} alt="image product" />
                         </td>
-                        <td>{elm.category.title}</td>
+                        <td>{elm.category?.title}</td>
                         <td>{elm.quantity}</td>
                         <td>{elm.ref}</td>
 
@@ -122,11 +122,11 @@ const CommonTableComponent = (props) => {
                     return (
                       <tr key={elm._id}>
                         <th scope="row">{((pagination.product.elementOfPage * pagination.product.currentPage) + index) + 1}</th>
-                        <td style={{minWidth: '195px'}}>{elm.fullName}</td>
+                        <td style={{minWidth: '195px'}}>{elm?.fullName}</td>
                         <td>{elm.email}</td>
-                        <td style={{minWidth: '135px'}}>{elm.phone}</td>
-                        <td style={{minWidth: '135px'}}>{elm.address}</td>
-                        <td style={{minWidth: '135px'}}>{elm.total.toFixed(6).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} VND</td>
+                        <td style={{minWidth: '135px'}}>{elm?.phone}</td>
+                        <td style={{minWidth: '135px'}}>{elm?.address}</td>
+                        <td style={{minWidth: '135px'}}>{elm?.total.toFixed(6).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} VND</td>
                         <td style={{minWidth: '135px'}}>Chưa vận chuyển</td>
                         <td style={{minWidth: '135px'}}>Chưa thanh toán</td>
                         <td>
