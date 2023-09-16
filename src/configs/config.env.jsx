@@ -2,10 +2,12 @@ import ENVIRONEMENT from "../environment";
 
 const Config = {
     DEV: {
-        URI: ENVIRONEMENT.URL.DEV
+        URI: ENVIRONEMENT.URL.DEV,
+        SOCKET: ENVIRONEMENT.SOCKET.PRO
     },
     PRO: {
-        URI: ENVIRONEMENT.URL.PRO
+        URI: ENVIRONEMENT.URL.PRO,
+        SOCKET: ENVIRONEMENT.SOCKET.PRO
     }
 }
 

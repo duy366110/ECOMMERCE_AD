@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import config from "../../../configs/config.env";
 import CommonButtonComponent from "../Common-Button-Component/Common-Button-Component";
 import classes from "./Common-Table-Component.module.css";
 
@@ -57,10 +58,10 @@ const CommonTableComponent = (props) => {
                     return (
                       <tr key={index}>
                         <th scope="row">{((pagination.user.elementOfPage * pagination.user.currentPage) + index) + 1}</th>
-                        <td>{elm.username}</td>
-                        <td>{elm.fullname}</td>
+                        <td style={{minWidth: '135px'}}>{elm.username}</td>
+                        <td style={{minWidth: '180px'}}>{elm.fullname}</td>
                         <td>{elm.email}</td>
-                        <td>{elm.phonenumber}</td>
+                        <td style={{minWidth: '135px'}}>{elm.phonenumber}</td>
                         <td>{elm.cart.length}</td>
                         <td>{elm.order.length}</td>
                         <td>{elm.role.name}</td>
@@ -101,7 +102,7 @@ const CommonTableComponent = (props) => {
                         <td>{elm.name}</td>
                         <td>{Number(elm?.price.$numberDecimal).toFixed(3)}</td>
                         <td>
-                          <img src={`http://localhost:5000/${elm?.images[0]}`} alt="image product" />
+                          <img src={`${config.URI.replace('api/', '').trim()}${elm?.images[0]}`} alt="image product" />
                         </td>
                         <td>{elm.category?.title}</td>
                         <td>{elm.quantity}</td>
