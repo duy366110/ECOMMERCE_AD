@@ -1,0 +1,15 @@
+.popup-message-component {
+    background-color: var(--first-color-01);
+    color: #ffffff;
+    left: 0px;
+    padding: 5px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 100;
+}
+
+.popup-message-content {
+    margin-bottom: 0px;
+    text-align: center;
+}

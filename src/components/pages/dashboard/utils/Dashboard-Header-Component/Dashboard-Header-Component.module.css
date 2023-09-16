@@ -1,0 +1,20 @@
+.dashboard-header-component {
+    border-bottom: 1px solid #dddddd;
+    width: 100%;
+}
+
+.header-title {
+    border-right: 1px solid #dddddd;
+    color: var(--first-color);
+    font-size: 20px;
+    margin-bottom: 0px;
+    padding: 15px 0px;
+    text-transform: capitalize;
+}
+
+.header-section {
+    color: var(--first-color);
+    font-size: 17px;
+    margin-bottom: 0px;
+    text-transform: capitalize;
+}

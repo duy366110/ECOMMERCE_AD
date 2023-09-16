@@ -1,0 +1,21 @@
+.dashboard-resume-component {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.icons {
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.icons svg {
+    color: var(--alpha-color);
+    font-size: 23px;
+    height: 23px;
+    width: 23px;
+}

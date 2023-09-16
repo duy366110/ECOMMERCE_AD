@@ -1,0 +1,15 @@
+.common-catalogy-image-component {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0px 25px;
+}
+
+.common-catalogy-image-component img {
+    box-shadow: 0px 0px 1px 0px #000000;
+    cursor: pointer;
+    height: 100px;
+    width: 150px;
+}

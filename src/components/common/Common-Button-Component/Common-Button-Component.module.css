@@ -1,0 +1,19 @@
+.button-component {
+    width: fit-content;
+}
+
+.btn-outline-success {
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.btn-outline-success:hover {
+    border-color: var(--success-color);
+    background-color: var(--alpha-success-color);
+}
+
+.btn-contaned-primary {
+    background-color: var(--primary-color)!important;
+    border-color: var(--primary-color)!important;
+    color: #ffffff;
+}

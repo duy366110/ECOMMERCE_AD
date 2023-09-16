@@ -1,0 +1,66 @@
+.dashboard-tab-component {
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    width: 100%;
+}
+
+.tab-container {
+    background-color: rgb(255, 255, 255);
+    border-right: 1px solid #dddddd;
+    left: 0px;
+    height: 100vh;
+    padding-top: 20px;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+}
+
+.tab-main, .tab-content {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.tab-main > li {
+    margin-bottom: 15px;
+}
+
+.tab-main > li > h2 {
+    color: #7a7a7a;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.tab-content {
+    padding-left: 10px;
+}
+
+.tab-content > li {
+    margin-bottom: 10px;
+}
+
+.tab-content > li a {
+    color: var(--alpha-color);
+    font-size: 14px;
+}
+
+.tab-content > li a.active {
+    color: var(--two-color);
+    font-weight: 600;
+}
+
+.tab-content > li a svg, .tab-btn svg {
+    color: var(--first-color);
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    vertical-align: sub;
+}
+
+.tab-btn {
+    background-color: transparent;
+    border: unset;
+    color: #7a7a7a;
+}
+

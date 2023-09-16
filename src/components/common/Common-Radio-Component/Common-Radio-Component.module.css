@@ -1,0 +1,13 @@
+.common-radio-component {
+    margin-top: 10px;
+    width: fit-content;
+}
+
+.common-radio-component .MuiFormControl-root {
+    background-color: red;
+}
+
+.radio-group-option {
+    display: flex!important;
+    flex-direction: row!important;
+}
