@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
+import config from "../../../../../configs/config.env";
 import useHttp from "../../../../../hook/use-http";
 import useValidation from "../../../../../hook/use-validation";
 import CommonButtonComponent from "../../../../common/Common-Button-Component/Common-Button-Component";
@@ -82,7 +83,7 @@ const DashboardAddProductComponent = (props) => {
 
 
             httpMethod({
-                url: 'http://localhost:5000/api/admin/product',
+                url: `${config.URI}admin/product`,
                 method: 'POST',
                 author: '',
                 payload: productForm,
@@ -175,7 +176,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch("http://localhost:5000/api/admin/category", {
+            let res = await fetch(`${config.URI}admin/category`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

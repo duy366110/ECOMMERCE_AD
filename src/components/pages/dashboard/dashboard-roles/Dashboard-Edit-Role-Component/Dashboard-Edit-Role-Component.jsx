@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
+import config from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
 import useHttp from '../../../../../hook/use-http';
 import CommonButtonComponent from '../../../../common/Common-Button-Component/Common-Button-Component';
@@ -27,7 +28,7 @@ const DashboardEditRoleComponent = (props) => {
 
         if(roleValid.status) {
             httpMethod({
-                url: `http://localhost:5000/api/admin/role`,
+                url: `${config.URI}admin/role`,
                 method: 'PATCH',
                 author: '',
                 payload: JSON.stringify({role: params.role, name: roleValue})
@@ -80,7 +81,7 @@ export const loader = (request, params) => {
     return new Promise( async(resolve, reject) => {
         try {
 
-            let res = await fetch(`http://localhost:5000/api/admin/role/${params.role}`);
+            let res = await fetch(`${config.URI}admin/role/${params.role}`);
             if(!res.ok) {
                 let infor = await res.json();
                 throw Error(infor.message);
