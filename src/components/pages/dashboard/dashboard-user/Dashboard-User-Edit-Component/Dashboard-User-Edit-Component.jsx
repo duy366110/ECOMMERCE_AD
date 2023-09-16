@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams, useLoaderData } from 'react-router-dom';
+import config from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
 import useHttp from '../../../../../hook/use-http';
 import CommonInputComponent from '../../../../common/Common-Input-Component/Common-Input-Component';
@@ -90,7 +91,7 @@ const DashboardUserEditComponent = (props) => {
             }
 
             httpMethod({
-                url: `http://localhost:5000/api/admin/user`,
+                url: `${config.URI}admin/user`,
                 method: 'PATCH',
                 author: '',
                 payload: JSON.stringify(user)
@@ -171,7 +172,7 @@ export default DashboardUserEditComponent;
 const loaderRole = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch(`http://localhost:5000/api/admin/role`, {
+            let res = await fetch(`${config.URI}admin/role`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -195,7 +196,7 @@ const loaderRole = () => {
 const loaderUser = (user_id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch(`http://localhost:5000/api/admin/user/${user_id}`, {
+            let res = await fetch(`${config.URI}admin/user/${user_id}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
