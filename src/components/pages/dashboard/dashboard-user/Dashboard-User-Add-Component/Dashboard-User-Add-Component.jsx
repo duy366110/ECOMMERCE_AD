@@ -96,7 +96,7 @@ const DashboardUserAddComponent = (props) => {
 
             // THỰC HIỆN GỬI THÔNG TIN TẠO MỚI
             httpMethod({
-                url: `${config.URI}admin/user`,
+                url: `${config.URI}/api/admin/user`,
                 method: 'POST', author: '',
                 payload: JSON.stringify(user)
 
@@ -183,7 +183,7 @@ export default DashboardUserAddComponent;
 export const loader = () => {
     return new Promise( async(resolve, reject) => {
         try {
-            let res = await fetch(`${config.URI}admin/role`, {
+            let res = await fetch(`${config.URI}/api/admin/role`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

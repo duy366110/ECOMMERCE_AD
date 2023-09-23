@@ -91,7 +91,7 @@ const DashboardUserEditComponent = (props) => {
             }
 
             httpMethod({
-                url: `${config.URI}admin/user`,
+                url: `${config.URI}/api/admin/user`,
                 method: 'PATCH',
                 author: '',
                 payload: JSON.stringify(user)
@@ -172,7 +172,7 @@ export default DashboardUserEditComponent;
 const loaderRole = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch(`${config.URI}admin/role`, {
+            let res = await fetch(`${config.URI}/api/admin/role`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -196,7 +196,7 @@ const loaderRole = () => {
 const loaderUser = (user_id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch(`${config.URI}admin/user/${user_id}`, {
+            let res = await fetch(`${config.URI}/api/admin/user/${user_id}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
