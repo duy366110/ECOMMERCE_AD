@@ -34,7 +34,7 @@ const AuthSignInComponent = (props) => {
 
         if(emailValid.status && passwordValid.status) {
             try {
-                let res = await fetch(`${config.URI}auth/signin/admin`, {
+                let res = await fetch(`${config.URI}/api/auth/signin/admin`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

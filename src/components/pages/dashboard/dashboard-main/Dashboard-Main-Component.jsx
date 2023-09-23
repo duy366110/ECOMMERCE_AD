@@ -16,19 +16,16 @@ const DashboardMainComponent = (props) => {
     const dispatch = useDispatch();
     const pagination = useSelector(state => state.pagination);
 
-
     const [reload, setReload] = useState(false);
     const [ amoutUser, setAmountUser] = useState(0);
     const [orders, setOrders] = useState([]);
     const [resumTotalOrder, setResumTotalOrder] = useState(0);
     const { httpMethod } = useHttp();
 
-    console.log(config.URL);
-
     // PHƯƠNG THỨC LOAD ORDER
     const loadOrderHandler = async() => {
         httpMethod({
-            url: `${config.URI}admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
+            url: `${config.URI}/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
             method: 'GET',
             author: '',
             payload: null,
@@ -36,9 +33,7 @@ const DashboardMainComponent = (props) => {
         }, (infor) => {
             let { status, message, orders } = infor;
 
-            if(status) {
-
-                console.log(orders);
+            if(status) {                
 
                 for(let orderItem of orders) {
                     orderItem.total = orderItem?.order.reduce((acc, orderProduct) => {
@@ -48,7 +43,6 @@ const DashboardMainComponent = (props) => {
 
                     setResumTotalOrder((state) => state + orderItem.total);
                 }
-    
                 setOrders(orders);
             }
         })
@@ -94,7 +88,7 @@ export default DashboardMainComponent;
 export const loadOrder = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch(`${config.URI}admin/order/amount`, {
+            let res = await fetch(`${config.URI}/api/admin/order/amount`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -119,7 +113,7 @@ export const loadOrder = () => {
 export const loadUser = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch(`${config.URI}admin/user/amount`, {
+            let res = await fetch(`${config.URI}/api/admin/user/amount`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',

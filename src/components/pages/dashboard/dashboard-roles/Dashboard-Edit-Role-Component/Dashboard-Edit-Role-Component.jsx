@@ -28,7 +28,7 @@ const DashboardEditRoleComponent = (props) => {
 
         if(roleValid.status) {
             httpMethod({
-                url: `${config.URI}admin/role`,
+                url: `${config.URI}/api/admin/role`,
                 method: 'PATCH',
                 author: '',
                 payload: JSON.stringify({role: params.role, name: roleValue})
@@ -81,7 +81,7 @@ export const loader = (request, params) => {
     return new Promise( async(resolve, reject) => {
         try {
 
-            let res = await fetch(`${config.URI}admin/role/${params.role}`);
+            let res = await fetch(`${config.URI}/api/admin/role/${params.role}`);
             if(!res.ok) {
                 let infor = await res.json();
                 throw Error(infor.message);

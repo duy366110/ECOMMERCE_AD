@@ -30,7 +30,7 @@ const DashboardRolesComponent = (props) => {
             dispatch(updateElementToTalRole({amount}));
 
             httpMethod({
-                url: `${config.URI}admin/role/${pagination.role.elementOfPage}/${(pagination.role.elementOfPage * pagination.role.currentPage)}`,
+                url: `${config.URI}/api/admin/role/${pagination.role.elementOfPage}/${(pagination.role.elementOfPage * pagination.role.currentPage)}`,
                 method: 'GET',
                 author: '',
                 payload: null
@@ -69,7 +69,7 @@ const DashboardRolesComponent = (props) => {
 
         if(window.confirm('Are you sure delete role!')) {
             httpMethod({
-                url:`${config.URI}admin/role`,
+                url:`${config.URI}/api/admin/role`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({role: id})
@@ -112,7 +112,7 @@ export const loader = (request, params) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch(`${config.URI}admin/role/amount`, {
+            let res = await fetch(`${config.URI}/api/admin/role/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

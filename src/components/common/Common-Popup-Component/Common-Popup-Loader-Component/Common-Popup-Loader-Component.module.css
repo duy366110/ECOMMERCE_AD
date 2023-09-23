@@ -1,0 +1,24 @@
+.common-popup-loader-component {
+    background-color: #0000001f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0px;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    transition: all .3s ease;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* .active {
+    display: flex;
+} */
+
+.spinner-border-custom {
+    color: var(--color-01);
+    font-size: 2.5rem;
+    height: 7.5rem;
+    width: 7.5rem;
+}

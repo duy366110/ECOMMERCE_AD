@@ -25,7 +25,7 @@ const DashboardAddRoleComponent = (props) => {
 
         if(roleValid.status) {
             httpMethod({
-                url: `${config.URI}admin/role`,
+                url: `${config.URI}/api/admin/role`,
                 method: 'POST',
                 author: '',
                 payload: JSON.stringify({role: roleValue})
