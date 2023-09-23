@@ -30,7 +30,7 @@ const DashboardProductComponent = (props) => {
             dispatch(updateElementToTalProduct({amount}));
 
             httpMethod({
-                url: `${config.URI}admin/product/${pagination.product.elementOfPage}/${(pagination.product.elementOfPage * pagination.product.currentPage)}`,
+                url: `${config.URI}/api/admin/product/${pagination.product.elementOfPage}/${(pagination.product.elementOfPage * pagination.product.currentPage)}`,
                 method: 'GET',
                 author: '',
                 payload: null
@@ -73,7 +73,7 @@ const DashboardProductComponent = (props) => {
 
         if(window.confirm('Are you sure delete product!')) {
             httpMethod({
-                url: `${config.URI}admin/product`,
+                url: `${config.URI}/api/admin/product`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({product: id})
@@ -116,7 +116,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch(`${config.URI}admin/product/amount`, {
+            let res = await fetch(`${config.URI}/api/admin/product/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
