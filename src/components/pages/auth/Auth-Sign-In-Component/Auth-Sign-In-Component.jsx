@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
+import useHttp from "../../../../hook/use-http";
 import { authSignin } from "../../../../store/store-auth";
 import useValidation from "../../../../hook/use-validation";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
@@ -12,11 +13,10 @@ const AuthSignInComponent = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [formValid, setFormValid] = useState('');
-
     const emailRef = useRef();
     const passwordRef = useRef();
 
+    const { httpMethod } = useHttp();
     const {value: emailValue, valid: emailValid, onBlur: emailBlur, onChange: emailChange} = useValidation(['require', 'email']);
     const {value: passwordValue, valid: passwordValid, onBlur: passwordBlur, onChange: passwordChange} = useValidation(['require', 'password']);
 
@@ -33,22 +33,15 @@ const AuthSignInComponent = (props) => {
         inputPassword.blur();
 
         if(emailValid.status && passwordValid.status) {
-            try {
-                let res = await fetch(`${config.URI}/api/auth/signin/admin`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({email: emailValue, password: passwordValue})
-                })
+            httpMethod({
+                url: `${config.URI}/api/auth/signin/admin`,
+                method: 'POST',
+                author: '',
+                payload: JSON.stringify({email: emailValue, password: passwordValue})
+            }, (information) => {
+                let { status, message, infor } = information;
 
-                if(!res.ok) {
-                    let infor = await res.json();
-                    throw Error(infor.message);
-                }
-
-                let { status, message, infor } = await res.json();
-
+                // CHUYỂN VỀ TRANG DANH SÁCH USER
                 if(status) {
                     let { id, username, fullname, phone, role } = infor;
                     localStorage.setItem('user', JSON.stringify({id, username, fullname, phone, role}));
@@ -56,10 +49,7 @@ const AuthSignInComponent = (props) => {
                     dispatch(authSignin({infor}));
                     navigate("/");
                 }
-
-            } catch (error) {
-                setFormValid(error.message);
-            }
+            })
         }
     }
 
@@ -67,7 +57,6 @@ const AuthSignInComponent = (props) => {
         <div className={classes['auth-component']}>
             <form className={classes['auth-form']} onSubmit={signInHandler}>
                 <h2 className={classes['form-title']}>Sign in</h2>
-                {formValid && (<h4 className="form-message">{formValid}</h4>) }
                 <CommonInputComponent
                     type='email'
                     ref={emailRef} blur={emailBlur}

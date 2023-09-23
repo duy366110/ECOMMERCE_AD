@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initState = {
-    // MESSAGE
     message: {
         status: false,
         content: ''
+    },
+    loader: {
+        status: false
     }
-
 }
 
 const popupslice = createSlice({
@@ -21,10 +22,13 @@ const popupslice = createSlice({
         messageClose: (state, action) => {
             state.message.status = false;
             state.message.content = '';
+        },
+        toggleLoader: (state, action) => {
+            state.loader.status = !state.loader.status;
         }
     }
 })
 
-export const {messageOpen, messageClose} = popupslice.actions;
+export const {messageOpen, messageClose, toggleLoader} = popupslice.actions;
 
 export default popupslice.reducer;
