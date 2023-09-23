@@ -31,7 +31,7 @@ const DashboardUserComponent = (props) => {
             dispatch(updateElementToTalUser({amount}));
 
             httpMethod({
-                url: `${config.URI}admin/user/${pagination.user.elementOfPage}/${(pagination.user.elementOfPage * pagination.user.currentPage)}`,
+                url: `${config.URI}/api/admin/user/${pagination.user.elementOfPage}/${(pagination.user.elementOfPage * pagination.user.currentPage)}`,
                 method: 'GET',
                 author: '',
                 payload: null
@@ -66,7 +66,7 @@ const DashboardUserComponent = (props) => {
 
         if(window.confirm('Are you sure delete delete account!')) {
             httpMethod({
-                url: `${config.URI}admin/user`,
+                url: `${config.URI}/api/admin/user`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({user: id})
@@ -116,7 +116,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch(`${config.URI}admin/user/amount`, {
+            let res = await fetch(`${config.URI}/api/admin/user/amount`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
