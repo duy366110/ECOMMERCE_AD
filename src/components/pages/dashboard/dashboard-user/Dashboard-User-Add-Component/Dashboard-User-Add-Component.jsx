@@ -162,6 +162,7 @@ const DashboardUserAddComponent = (props) => {
                             <CommonSelectComponent
                                 label="Role *" options={roles}
                                 ref={roleRef}
+                                valueDefaultOption={'Choose role...'}
                                 blur={roleBlur} change={roleChange}
                                 value={roleValue} defaultValue="DEFAULT"
                                 valid={roleValid} />

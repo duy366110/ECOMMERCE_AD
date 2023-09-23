@@ -1,5 +1,5 @@
 import { useDispatch  } from "react-redux";
-import { messageOpen, messageClose } from "../store/store-popup";
+import { messageOpen, messageClose, toggleLoader } from "../store/store-popup";
 
 const useHttp = () => {
     const dispatch = useDispatch();
@@ -10,6 +10,7 @@ const useHttp = () => {
         try {
             // TẠO REQUEST ĐẾN SERVER
             let res = null;
+            dispatch(toggleLoader());
 
             // TRƯỜNG HỢP GỬI REQUEST THÔNG THƯỜNG
             if(!option.customForm) {
@@ -48,6 +49,8 @@ const useHttp = () => {
             dispatch(messageClose());
            }, 2500)
         }
+
+        dispatch(toggleLoader());
     }
 
     // TRẢ VỀ PHƯƠNG THỨC HTTP
