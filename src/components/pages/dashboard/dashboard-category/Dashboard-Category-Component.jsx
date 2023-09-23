@@ -24,7 +24,7 @@ const DashboardCategoryComponent = (props) => {
     // PHƯƠNG THỨC LOAD CATEGORY
     const loadCategoryHandler = async() => {
         httpMethod({
-            url: `${config.URI}admin/category/${pagination.category.elementOfPage}/${(pagination.category.elementOfPage * pagination.category.currentPage)}`,
+            url: `${config.URI}/api/admin/category/${pagination.category.elementOfPage}/${(pagination.category.elementOfPage * pagination.category.currentPage)}`,
             method: 'GET',
             author: '',
             payload: null,
@@ -60,7 +60,7 @@ const DashboardCategoryComponent = (props) => {
 
         if(id && window.confirm("Are you sure delete category")) {;
             httpMethod({
-                url: `${config.URI}admin/category`,
+                url: `${config.URI}/api/admin/category`,
                 method: 'DELETE',
                 author: '',
                 payload: JSON.stringify({category: id}),
@@ -109,7 +109,7 @@ export const loader = () => {
         try {
 
             // GỬI REQUEST LẤY SỐ LƯỢNG CATEGORY HIỆN CÓ TRONG DB
-            let res = await fetch(`${config.URI}admin/category/amount`, {
+            let res = await fetch(`${config.URI}/api/admin/category/amount`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
