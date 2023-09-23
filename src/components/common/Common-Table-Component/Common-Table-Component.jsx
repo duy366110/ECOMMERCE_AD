@@ -102,7 +102,7 @@ const CommonTableComponent = (props) => {
                         <td>{elm.name}</td>
                         <td>{Number(elm?.price.$numberDecimal).toFixed(3)}</td>
                         <td>
-                          <img src={`${config.URI.replace('api/', '').trim()}${elm?.images[0]}`} alt="image product" />
+                          <img src={elm?.images[0]} alt="image product" />
                         </td>
                         <td>{elm.category?.title}</td>
                         <td>{elm.quantity}</td>

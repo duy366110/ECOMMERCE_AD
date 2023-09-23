@@ -15,7 +15,7 @@ const DashboardAddProductComponent = (props) => {
 
     const nameRef = useRef();
     const priceRef = useRef();
-    const imagesRef = useRef();
+    const photosRef = useRef();
     const quantityRef = useRef();
     const categoryRef = useRef();
     const shortDesRef = useRef();
@@ -24,7 +24,7 @@ const DashboardAddProductComponent = (props) => {
     const { httpMethod } = useHttp();
     const {value: nameValue, valid: nameValid, onBlur: nameBlur, onChange: nameChange} = useValidation(['require']);
     const {value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange} = useValidation(['require']);
-    const {value: imagesValue, valid: imagesValid, onBlur: imagesBlur, onChange: imagesChange} = useValidation([]);
+    const {value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
     const {value: quantityValue, valid: quantityValid, onBlur: quantityBlur, onChange: quantityChange} = useValidation(['require']);
     const {value: categoryValue, valid: categoryValid, onBlur: categoryBlur, onChange: categoryChange} = useValidation(['require']);
     const {value: shortDesValue, valid: shortDesValid, onBlur: shortDesBlur, onChange: shortDesChange} = useValidation([]);
@@ -62,7 +62,7 @@ const DashboardAddProductComponent = (props) => {
         categorySelect.focus();
         categorySelect.blur();
 
-        let imagesInput = imagesRef.current.input.current;
+        let photosInput = photosRef.current.input.current;
 
         if((nameValid.status && categoryValid.status) &&
         (priceValid.status && quantityValid.status)) {
@@ -75,15 +75,15 @@ const DashboardAddProductComponent = (props) => {
             productForm.append('shortDes', shortDesValue);
             productForm.append('longDes', longDesValue);
 
-            if(imagesInput.files.length) {
-                for(let file of imagesInput.files) {
-                    productForm.append('images', file);
+            if(photosInput.files.length) {
+                for(let file of photosInput.files) {
+                    productForm.append('photos', file);
                 }
             }
 
 
             httpMethod({
-                url: `${config.URI}admin/product`,
+                url: `${config.URI}/api/admin/product`,
                 method: 'POST',
                 author: '',
                 payload: productForm,
@@ -153,9 +153,9 @@ const DashboardAddProductComponent = (props) => {
 
                         <div className="col-6">
                             <CommonInputComponent
-                                ref={imagesRef} type="file"
-                                blur={imagesBlur} change={imagesChange}
-                                label="Images" valid={imagesValid} />
+                                ref={photosRef} type="file"
+                                blur={photosBlur} change={photosChange}
+                                label="photos" valid={photosValid} />
                         </div>
 
                     </div>
@@ -176,7 +176,7 @@ export const loader = () => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            let res = await fetch(`${config.URI}admin/category`, {
+            let res = await fetch(`${config.URI}/api/admin/category`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ const DashboardEditProductComponent = (props) => {
     
     const nameRef = useRef();
     const priceRef = useRef();
-    const imagesRef = useRef();
+    const photosRef = useRef();
     const quantityRef = useRef();
     const categoryRef = useRef();
     const shortDesRef = useRef();
@@ -26,7 +26,7 @@ const DashboardEditProductComponent = (props) => {
     const { httpMethod } = useHttp();
     const {defaultValue: nameDef, value: nameValue, valid: nameValid, onBlur: nameBlur, onChange: nameChange} = useValidation(['require']);
     const {defaultValue: priceDef, value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange} = useValidation(['require']);
-    const {defaultValue: imagesDef, value: imagesValue, valid: imagesValid, onBlur: imagesBlur, onChange: imagesChange} = useValidation([]);
+    const {defaultValue: photosDef, value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
     const {defaultValue: quantityDef, value: quantityValue, valid: quantityValid, onBlur: quantityBlur, onChange: quantityChange} = useValidation(['require']);
     const {defaultValue: categoryDef, value: categoryValue, valid: categoryValid, onBlur: categoryBlur, onChange: categoryChange} = useValidation(['require']);
     const {defaultValue: shortDesDef, value: shortDesValue, valid: shortDesValid, onBlur: shortDesBlur, onChange: shortDesChange} = useValidation([]);
@@ -72,7 +72,7 @@ const DashboardEditProductComponent = (props) => {
         categorySelect.focus();
         categorySelect.blur();
 
-        let imagesInput = imagesRef.current.input.current;
+        let photosInput = photosRef.current.input.current;
 
         if(params.product && (nameValid.status && categoryValid.status) &&
         (priceValid.status && quantityValid.status)) {
@@ -86,14 +86,14 @@ const DashboardEditProductComponent = (props) => {
             productForm.append('shortDes', shortDesValue);
             productForm.append('longDes', longDesValue);
 
-            if(imagesInput.files.length) {
-                for(let file of imagesInput.files) {
-                    productForm.append('images', file);
+            if(photosInput.files.length) {
+                for(let file of photosInput.files) {
+                    productForm.append('photos', file);
                 }
             }
 
             httpMethod({
-                url: `${config.URI}admin/product`,
+                url: `${config.URI}/api/admin/product`,
                 method: 'PATCH',
                 author: '',
                 payload: productForm,
@@ -162,9 +162,9 @@ const DashboardEditProductComponent = (props) => {
 
                         <div className="col-6">
                             <CommonInputComponent
-                                ref={imagesRef} type="file"
-                                blur={imagesBlur} change={imagesChange}
-                                label="Images" valid={imagesValid} />
+                                ref={photosRef} type="file"
+                                blur={photosBlur} change={photosChange}
+                                label="photos" valid={photosValid} />
                         </div>
 
                         <div className="col-12">
@@ -193,7 +193,7 @@ const loaderCategory = (request, params) => {
     return new Promise( async(resolve, reject) => {
         try {
 
-            let res = await fetch(`${config.URI}admin/category`);
+            let res = await fetch(`${config.URI}/api/admin/category`);
             if(!res.ok) {
                 let infor = await res.json();
                 throw Error(infor.message);
@@ -211,7 +211,7 @@ const loaderProduct = (product) => {
     return new Promise( async(resolve, reject) => {
         try {
 
-            let res = await fetch(`${config.URI}admin/product/${product}`);
+            let res = await fetch(`${config.URI}/api/admin/product/${product}`);
             if(!res.ok) {
                 let infor = await res.json();
                 throw Error(infor.message);
