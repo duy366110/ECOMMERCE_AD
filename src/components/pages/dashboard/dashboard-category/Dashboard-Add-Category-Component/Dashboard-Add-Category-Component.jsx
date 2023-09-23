@@ -41,7 +41,7 @@ const DashboardAddCategoryComponent = (props) => {
             }
 
             httpMethod({
-                url: `${config.URI}admin/category`,
+                url: `${config.URI}/api/admin/category`,
                 method: 'POST',
                 author: '',
                 payload: categoryForm,

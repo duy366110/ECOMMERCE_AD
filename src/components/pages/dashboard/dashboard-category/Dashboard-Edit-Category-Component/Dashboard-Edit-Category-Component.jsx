@@ -57,7 +57,7 @@ const DashboardEditCategoryComponent = (props) => {
             }
 
             httpMethod({
-                url: `${config.URI}admin/category`,
+                url: `${config.URI}/api/admin/category`,
                 method: 'PATCH',
                 author: '',
                 payload: categoryForm,
@@ -117,7 +117,7 @@ export const loader = (request, params) => {
     return new Promise(async(resolve, reject) => {
         try {
             let { category } = params;
-            let res = await fetch(`${config.URI}admin/category/${category}`, {
+            let res = await fetch(`${config.URI}/api/admin/category/${category}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
