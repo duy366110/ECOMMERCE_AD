@@ -1,11 +1,11 @@
 const environement = {
     URL: {
         DEV: 'http://localhost:8080',
-        PRO: 'https://ecommercebe-5bbc136621ec.herokuapp.com'
+        PRO: 'https://ecommerce-3121.onrender.com'
     },
     SOCKET: {
         DEV: 'http://localhost:5000',
-        PRO: 'https://ecommercebe-5bbc136621ec.herokuapp.com'
+        PRO: 'https://ecommerce-3121.onrender.com'
     },
     MODEL: 'PRO' // DEV
 }
