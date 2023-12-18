@@ -12,10 +12,12 @@ const DashboardAddCategoryComponent = (props) => {
     const navigate = useNavigate();
 
     const titleRef = useRef();
+    const desRef = useRef();
     const photosRef = useRef();
 
     const { httpMethod } = useHttp();
     const {value: titleValue, valid: titleValid, onBlur: titleBlur, onChange: titleChange} = useValidation(['require']);
+    const {value: desValue, valid: desValid, onBlur: desBlur, onChange: desChange} = useValidation([]);
     const {value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
 
     // PHƯƠNG THỨC TẠO MỚI CATEGORY
@@ -33,6 +35,7 @@ const DashboardAddCategoryComponent = (props) => {
             // TẠO FORM DATA
             let categoryForm = new FormData();
             categoryForm.append('title', titleValue);
+            categoryForm.append('des', desValue);
 
             if(photosInput.files.length) {
                 for(let file of photosInput.files) {
@@ -70,6 +73,13 @@ const DashboardAddCategoryComponent = (props) => {
                         </div>
 
                         <div className="col-6">
+                            <CommonInputComponent
+                                ref={desRef} blur={desBlur}
+                                change={desChange} label="Category description"
+                                value={desValue} valid={desValid}/>
+                        </div>
+
+                        <div className="col-12">
                             <CommonInputComponent
                                 ref={photosRef} type="file"
                                 blur={photosBlur} change={photosChange}
