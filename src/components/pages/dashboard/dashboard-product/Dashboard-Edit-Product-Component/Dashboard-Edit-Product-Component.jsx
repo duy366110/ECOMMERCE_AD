@@ -26,7 +26,7 @@ const DashboardEditProductComponent = (props) => {
     const { httpMethod } = useHttp();
     const {defaultValue: nameDef, value: nameValue, valid: nameValid, onBlur: nameBlur, onChange: nameChange} = useValidation(['require']);
     const {defaultValue: priceDef, value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange} = useValidation(['require']);
-    const {defaultValue: photosDef, value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
+    const {valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
     const {defaultValue: quantityDef, value: quantityValue, valid: quantityValid, onBlur: quantityBlur, onChange: quantityChange} = useValidation(['require']);
     const {defaultValue: categoryDef, value: categoryValue, valid: categoryValid, onBlur: categoryBlur, onChange: categoryChange} = useValidation(['require']);
     const {defaultValue: shortDesDef, value: shortDesValue, valid: shortDesValid, onBlur: shortDesBlur, onChange: shortDesChange} = useValidation([]);
@@ -37,7 +37,7 @@ const DashboardEditProductComponent = (props) => {
 
     useEffect(() => {
         // THỰC HIỆN LOAD GIÁ TRỊ HIỆN BIND THÔNG TIN
-        let { status, message, product, categories } = loader;
+        let { status, product, categories } = loader;
         if(status) {
             setProduct(product);
             setCategories(categories);
@@ -50,7 +50,15 @@ const DashboardEditProductComponent = (props) => {
             longDesDef(product.longDes);
 
         }
-    }, [])
+    }, [
+        loader,
+        nameDef,
+        priceDef,
+        quantityDef,
+        categoryDef,
+        shortDesDef,
+        longDesDef,
+    ])
 
     // PHƯƠNG THỨC EDIT PRODUCT
     const editProductHandler = async (event) => {
@@ -99,7 +107,7 @@ const DashboardEditProductComponent = (props) => {
                 payload: productForm,
                 customForm: true
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
                 
                 // TẠO CẬP NHẬT PRODUCT THÀNH CÔNG REDIRECT VỀ PRODUCTS PAGE
                 if(status) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
@@ -23,8 +23,8 @@ const DashboardProductComponent = (props) => {
     const [reload, setReload] = useState(false);
 
     // LẤY THÔNG TIN VÀ CẬP NHẬT ROLE
-    const getProducts = async () => {
-        let { status, message, amount } = loader;
+    const getProducts = useCallback(async () => {
+        let { status, amount } = loader;
 
         if(status) {
             dispatch(updateElementToTalProduct({amount}));
@@ -35,20 +35,24 @@ const DashboardProductComponent = (props) => {
                 author: '',
                 payload: null
             }, (infor) => {
-                let { status, message, products } = infor;
+                let { status, products } = infor;
                 if(status) {
-                    console.log(products);
                     setProducts(products);
                     
                 }
             })
         }
-    }
+    }, [
+        httpMethod,
+        dispatch,
+        pagination.product.elementOfPage,
+        pagination.product.currentPage,
+    ])
 
     // LOADER THÔNG TIN PRODUCT
     useEffect(() => {
         getProducts();
-    }, [reload, pagination.product.currentPage])
+    }, [reload, getProducts, pagination.product.currentPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
@@ -99,7 +103,7 @@ const DashboardProductComponent = (props) => {
                     <CommonTableComponent edit={editProductHandler} delete={deleteProductHandler} head={HeadTable} list={products} type="product"/>
                 )}
 
-                {products.length == 0 && (<h2 className="blank">Not found product</h2>)}
+                {products.length === 0 && (<h2 className="blank">Not found product</h2>)}
 
                 <CommonPaginationComponent
                     click={paginationHandler}

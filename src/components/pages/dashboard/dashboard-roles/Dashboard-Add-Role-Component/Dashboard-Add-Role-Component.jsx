@@ -40,7 +40,12 @@ const DashboardAddRoleComponent = (props) => {
             })
         }
 
-    }, [httpMethod])
+    }, [
+        httpMethod,
+        navigate,
+        roleValue,
+        roleValid.status
+    ])
 
     return (
         <div className="dashboard-container">
