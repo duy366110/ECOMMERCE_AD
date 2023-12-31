@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
 import config from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
@@ -18,7 +18,7 @@ const DashboardEditRoleComponent = (props) => {
     const {defaultValue: roleDefaultVal, value: roleValue, valid: roleValid, onBlur: roleBlur, onChange: roleChange} = useValidation(['require']);
 
     // PHƯƠNG THỨC EDIT ROLE
-    const editHandler = async (event) => {
+    const editHandler = useCallback(async (event) => {
         event.preventDefault();
 
         let roleInput = roleRef.current.input.current;
@@ -34,7 +34,7 @@ const DashboardEditRoleComponent = (props) => {
                 payload: JSON.stringify({role: params.role, name: roleValue})
 
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
                 
                 // TẠO ROLE THÀNH CÔNG REDIRECT VỀ ROLES PAGE
                 if(status) {
@@ -42,15 +42,15 @@ const DashboardEditRoleComponent = (props) => {
                 }
             })
         }
-    }
+    }, [httpMethod])
 
     useEffect(() => {
         // THỰC HIỆN LOAD GIÁ TRỊ HIỆN CÓ CỦA ROLE
-        let { status, message, role } = loader;
+        let { status, role } = loader;
         if(status) {
             roleDefaultVal(role.name);
         }
-    }, [])
+    }, [loader, roleDefaultVal])
 
     return (
         <div className="dashboard-container">

@@ -41,7 +41,13 @@ const DashboardRolesComponent = (props) => {
                 }
             })
         }
-    }, [loader])
+    }, [
+        loader,
+        dispatch,
+        httpMethod,
+        pagination.role.elementOfPage,
+        pagination.role.currentPage
+    ])
 
     // LOADER THÔNG TIN ROLE
     useEffect(() => {

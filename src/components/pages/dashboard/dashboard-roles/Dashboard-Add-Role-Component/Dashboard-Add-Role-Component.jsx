@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../../../../../configs/config.env";
 import useHttp from "../../../../../hook/use-http";
@@ -15,7 +15,7 @@ const DashboardAddRoleComponent = (props) => {
     const {value: roleValue, valid: roleValid, onBlur: roleBlur, onChange: roleChange} = useValidation(['require']);
 
     // PHƯƠNG THỨC TẠO ROLE
-    const createRoleHandler = async (event) => {
+    const createRoleHandler = useCallback(async (event) => {
         event.preventDefault();
 
         let roleInput = roleRef.current.input.current;
@@ -31,7 +31,7 @@ const DashboardAddRoleComponent = (props) => {
                 payload: JSON.stringify({role: roleValue})
             }, (infor) => {
 
-                let { status, message } = infor;
+                let { status } = infor;
 
                 // TẠO ROLE THÀNH CÔNG REDIRECT VỀ ROLES PAGE
                 if(status) {
@@ -40,7 +40,7 @@ const DashboardAddRoleComponent = (props) => {
             })
         }
 
-    }
+    }, [httpMethod])
 
     return (
         <div className="dashboard-container">

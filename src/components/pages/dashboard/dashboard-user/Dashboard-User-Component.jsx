@@ -42,7 +42,13 @@ const DashboardUserComponent = (props) => {
                 }
             })
         }
-    }, [loader])
+    }, [
+        loader,
+        dispatch,
+        httpMethod,
+        pagination.user.currentPage,
+        pagination.user.elementOfPage
+    ])
 
     // LOADER THÔNG TIN USER
     useEffect(() => {

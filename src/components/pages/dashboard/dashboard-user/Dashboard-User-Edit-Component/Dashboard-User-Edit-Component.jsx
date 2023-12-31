@@ -43,7 +43,14 @@ const DashboardUserEditComponent = (props) => {
             roleDefaultVal(user.role._id);
             setRoles(roles);
         }
-    }, [loader])
+    }, [loader,
+        nameDefaultVal,
+        fullNameDefaultVal,
+        phoneDefaultVal,
+        emailDefaultVal,
+        addresDef,
+        roleDefaultVal,
+    ])
 
     useEffect(() => {
         mapper();
