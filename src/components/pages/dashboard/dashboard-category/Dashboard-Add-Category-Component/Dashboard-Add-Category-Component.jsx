@@ -58,7 +58,13 @@ const DashboardAddCategoryComponent = (props) => {
                 }
             })
         }
-    }, [httpMethod])
+    }, [
+        httpMethod,
+        navigate,
+        titleValid.status,
+        titleValue,
+        desValue
+    ])
 
     return (
         <div className="dashboard-container">

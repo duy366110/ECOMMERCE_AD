@@ -49,7 +49,7 @@ const DashboardCategoryComponent = (props) => {
             loadCategoryHandler();
         }
 
-    }, [reload, pagination.category.currentPage, loadCategoryHandler, dispatch])
+    }, [loader, reload, pagination.category.currentPage, loadCategoryHandler, dispatch])
 
     // REDIRECT ĐÉN TRANG THÊM MỚI CATEGORY
     const navigateNewCategory = (event) => {

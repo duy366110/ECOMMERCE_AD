@@ -47,7 +47,7 @@ const DashboardFeaturedComponent = (props) => {
             loadFeaturedHandler();
         }
 
-    }, [reload, pagination.featured.currentPage, loadFeaturedHandler, dispatch])
+    }, [loader, reload, pagination.featured.currentPage, loadFeaturedHandler, dispatch])
 
     // REDIRECT ĐẾN TRANG THÊM MỚI FEATURED
     const navigateNewFeatured = (event) => {
