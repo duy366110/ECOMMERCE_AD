@@ -95,7 +95,7 @@ const DashboardEditCategoryComponent = (props) => {
 
                         {category && category?.images.length > 0 && (
                             <div className="col-12">
-                                <CommonCatalogyImageComponent images={category?.images} endpoint="category" id={category._id} />
+                                {/* <CommonCatalogyImageComponent images={category?.images} endpoint="category" id={category._id} /> */}
                             </div>
                         )}
 

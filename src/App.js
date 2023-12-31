@@ -25,7 +25,7 @@ function App() {
 
     }
 
-  }, [dispatch])
+  }, [dispatch, navigate])
 
   return (
     <Outlet />
