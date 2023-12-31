@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
 import config from "../../../../configs/config.env";
@@ -22,7 +22,7 @@ const DashboardMainComponent = (props) => {
     const { httpMethod } = useHttp();
 
     // PHƯƠNG THỨC LOAD ORDER
-    const loadOrderHandler = async() => {
+    const loadOrderHandler = useCallback(async() => {
         httpMethod({
             url: `${config.URI}/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
             method: 'GET',
@@ -45,7 +45,12 @@ const DashboardMainComponent = (props) => {
                 setOrders(orders);
             }
         })
-    }
+    }, [
+        httpMethod,
+        pagination.order.elementOfPage,
+        pagination.order.currentPage,
+
+    ])
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
@@ -73,7 +78,7 @@ const DashboardMainComponent = (props) => {
                     <CommonTableComponent head={HeadTable} list={orders} type="order"/>
                 )}
 
-                {orders.length == 0 && (<h2 className="blank">Not found orders</h2>)}
+                {orders.length === 0 && (<h2 className="blank">Not found orders</h2>)}
 
                 <CommonPaginationComponent
                     click={paginationHandler}

@@ -43,6 +43,7 @@ const DashboardProductComponent = (props) => {
             })
         }
     }, [
+        loader,
         httpMethod,
         dispatch,
         pagination.product.elementOfPage,
@@ -82,7 +83,7 @@ const DashboardProductComponent = (props) => {
                 author: '',
                 payload: JSON.stringify({product: id})
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 if(status) {
                     setReload(!reload);

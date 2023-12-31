@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../../../../../configs/config.env";
 import useValidation from "../../../../../hook/use-validation";
@@ -21,7 +21,7 @@ const DashboardAddCategoryComponent = (props) => {
     const { valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
 
     // PHƯƠNG THỨC TẠO MỚI CATEGORY
-    const newCategoryHandler = async (event) => {
+    const newCategoryHandler = useCallback(async (event) => {
         event.preventDefault();
 
         let titleInput = titleRef.current.input.current;
@@ -58,7 +58,7 @@ const DashboardAddCategoryComponent = (props) => {
                 }
             })
         }
-    }
+    }, [httpMethod])
 
     return (
         <div className="dashboard-container">
