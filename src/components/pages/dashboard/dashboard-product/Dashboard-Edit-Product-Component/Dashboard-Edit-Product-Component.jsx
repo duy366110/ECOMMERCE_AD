@@ -178,7 +178,7 @@ const DashboardEditProductComponent = (props) => {
                         <div className="col-12">
                             {product && product?.images.length > 0 && (
                                 <div className="col-12">
-                                    <CommonCatalogyImageComponent images={product?.images} endpoint="product" id={product._id} />
+                                    {/* <CommonCatalogyImageComponent images={product?.images} endpoint="product" id={product._id} /> */}
                                 </div>
                             )}
                         </div>
