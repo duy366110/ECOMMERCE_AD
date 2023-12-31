@@ -52,7 +52,7 @@ const DashboardMainComponent = (props) => {
             })
         }
         
-    }, [loader, dispatch, pagination.order.currentPage, pagination.order.currentPage])
+    }, [loader, dispatch, httpMethod, pagination.order.currentPage, pagination.order.elementOfPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
