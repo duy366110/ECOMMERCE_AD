@@ -47,15 +47,18 @@ const DashboardMainComponent = (props) => {
         })
     }
 
-    // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
-    useEffect(() => {
+    const loaderSmooth = () => {
         let { status, amounUser, amountOrder} = loader;
         if(status) {
             setAmountUser(amounUser);
             dispatch(updateElementToTalOrder({amountOrder}));
-            loadOrderHandler();
+            loadOrderHandler();   
         }
+    }
 
+    // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
+    useEffect(() => {
+        loaderSmooth();
     }, [loader, pagination.order.currentPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
