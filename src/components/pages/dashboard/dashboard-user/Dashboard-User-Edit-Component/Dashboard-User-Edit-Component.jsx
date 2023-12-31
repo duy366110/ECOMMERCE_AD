@@ -48,7 +48,7 @@ const DashboardUserEditComponent = (props) => {
 
     useEffect(() => {
         mapper();
-    }, [])
+    }, [mapper])
 
     // PHƯƠNG THỨC THỰC HIỆN CHỈNH SỦA THÔNG TIN NGƯỜI DÙNG
     const modifiUserHandler = async (event) => {
@@ -96,7 +96,7 @@ const DashboardUserEditComponent = (props) => {
                 author: '',
                 payload: JSON.stringify(user)
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 // CHUYỂN VỀ TRANG DANH SÁCH USER
                 if(status) {
