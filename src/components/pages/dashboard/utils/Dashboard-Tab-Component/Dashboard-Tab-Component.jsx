@@ -43,7 +43,7 @@ const DashboardTabComponent = (props) => {
                         <ul className={classes['tab-content']}>
                             <li><NavLink to="users" className={({ isActive }) => isActive ? classes["active"] : ""}><SupervisedUserCircleIcon /> Users</NavLink></li>
                             <li><NavLink to="categorys" className={({ isActive }) => isActive ? classes["active"] : ""}><CategoryIcon />Categories</NavLink></li>
-                            <li><NavLink to="featured" className={({ isActive }) => isActive ? classes["active"] : ""}><CategoryIcon />Featured</NavLink></li>
+                            <li><NavLink to="featured" className={({ isActive }) => isActive ? classes["active"] : ""}><CategoryIcon />Featureds</NavLink></li>
                             <li><NavLink to="products" className={({ isActive }) => isActive ? classes["active"] : ""}><SpaceDashboardIcon />Products</NavLink></li>
                             <li><NavLink to="roles" className={({ isActive }) => isActive ? classes["active"] : ""}><AdminPanelSettingsIcon /> Roles</NavLink></li>
                             <li><NavLink to="customer-care" className={({ isActive }) => isActive ? classes["active"] : ""}><ThreePIcon />Customer care</NavLink></li>
