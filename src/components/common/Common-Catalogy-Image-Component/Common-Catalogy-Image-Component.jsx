@@ -17,7 +17,7 @@ const CommonCatalogyImageComponent = (props) => {
                 url: `${config.URI}/api/admin/${props.endpoint}/photo`,
                 method: 'DELETE',
                 author: '',
-                payload: JSON.stringify({id: props.id, photo: img}),
+                payload: JSON.stringify({id: props?.id, photo: img}),
                 customForm: false
             },
             (infor) => {
@@ -32,7 +32,7 @@ const CommonCatalogyImageComponent = (props) => {
     
     return (
         <div className={classes['common-catalogy-image-component']}>
-            {props.images.map((photo) => {
+            {props?.images.map((photo) => {
                 return (
                     <img onClick={deleteImage} data-img={photo} src={photo} alt="Thumbnail" />
                 )
