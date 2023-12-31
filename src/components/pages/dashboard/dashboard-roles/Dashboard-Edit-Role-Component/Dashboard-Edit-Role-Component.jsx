@@ -42,7 +42,13 @@ const DashboardEditRoleComponent = (props) => {
                 }
             })
         }
-    }, [httpMethod])
+    }, [
+        httpMethod,
+        params.role,
+        navigate,
+        roleValid.status,
+        roleValue
+    ])
 
     useEffect(() => {
         // THỰC HIỆN LOAD GIÁ TRỊ HIỆN CÓ CỦA ROLE

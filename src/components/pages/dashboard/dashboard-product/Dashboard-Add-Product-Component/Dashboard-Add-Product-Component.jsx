@@ -24,7 +24,7 @@ const DashboardAddProductComponent = (props) => {
     const { httpMethod } = useHttp();
     const {value: nameValue, valid: nameValid, onBlur: nameBlur, onChange: nameChange} = useValidation(['require']);
     const {value: priceValue, valid: priceValid, onBlur: priceBlur, onChange: priceChange} = useValidation(['require']);
-    const {value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
+    const {valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
     const {value: quantityValue, valid: quantityValid, onBlur: quantityBlur, onChange: quantityChange} = useValidation(['require']);
     const {value: categoryValue, valid: categoryValid, onBlur: categoryBlur, onChange: categoryChange} = useValidation(['require']);
     const {value: shortDesValue, valid: shortDesValid, onBlur: shortDesBlur, onChange: shortDesChange} = useValidation([]);
@@ -34,13 +34,12 @@ const DashboardAddProductComponent = (props) => {
     
     // LOAD DANH MỤC CATEGORY
     useEffect(() => {
-        console.log(loader);
-        let { status, message, categories } = loader;
+        let { status, categories } = loader;
         if(status) {
             setCategories(categories);
         }
 
-    }, [])
+    }, [loader])
 
     // PHƯƠNG THỨC TẠO ROLE
     const createProductHandler = async (event) => {
@@ -90,7 +89,7 @@ const DashboardAddProductComponent = (props) => {
                 customForm: true
             }, (infor) => {
 
-                let { status, message } = infor;
+                let { status } = infor;
 
                 // TẠO PRODUCT THÀNH CÔNG REDIRECT VỀ PRODUCT PAGE
                 if(status) {
