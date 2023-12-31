@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
 import config from "../../../../configs/config.env";
@@ -21,47 +21,38 @@ const DashboardMainComponent = (props) => {
     const [resumTotalOrder, setResumTotalOrder] = useState(0);
     const { httpMethod } = useHttp();
 
-    // PHƯƠNG THỨC LOAD ORDER
-    const loadOrderHandler = async() => {
-        httpMethod({
-            url: `${config.URI}/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
-            method: 'GET',
-            author: '',
-            payload: null,
-            customForm: false
-        }, (infor) => {
-            let { status, orders } = infor;
+    // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
+    useEffect(() => {
 
-            if(status) {                
-
-                for(let orderItem of orders) {
-                    orderItem.total = orderItem?.order.reduce((acc, orderProduct) => {
-                        acc += Number(orderProduct.product?.price.$numberDecimal) * Number(orderProduct?.quantity);
-                        return acc;
-                    }, 0);
-
-                    setResumTotalOrder((state) => state + orderItem.total);
-                }
-                setOrders(orders);
-            }
-        })
-    }
-
-    const loaderSmooth = () => {
         let { status, amounUser, amountOrder} = loader;
         if(status) {
             setAmountUser(amounUser);
             dispatch(updateElementToTalOrder({amountOrder}));
-            loadOrderHandler();   
+            httpMethod({
+                url: `${config.URI}/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
+                method: 'GET',
+                author: '',
+                payload: null,
+                customForm: false
+            }, (infor) => {
+                let { status, orders } = infor;
+    
+                if(status) {                
+    
+                    for(let orderItem of orders) {
+                        orderItem.total = orderItem?.order.reduce((acc, orderProduct) => {
+                            acc += Number(orderProduct.product?.price.$numberDecimal) * Number(orderProduct?.quantity);
+                            return acc;
+                        }, 0);
+    
+                        setResumTotalOrder((state) => state + orderItem.total);
+                    }
+                    setOrders(orders);
+                }
+            })
         }
-    }
-
-    // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
-    useEffect(() => {
-        return () => {
-            loaderSmooth();
-        }
-    }, [loader, pagination.order.currentPage])
+        
+    }, [loader, dispatch, pagination.order.currentPage, pagination.order.currentPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
