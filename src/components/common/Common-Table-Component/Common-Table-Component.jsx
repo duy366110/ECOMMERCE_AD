@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import config from "../../../configs/config.env";
 import CommonButtonComponent from "../Common-Button-Component/Common-Button-Component";
 import classes from "./Common-Table-Component.module.css";
 

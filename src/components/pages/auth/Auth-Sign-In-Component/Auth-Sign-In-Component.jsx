@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
@@ -39,7 +39,7 @@ const AuthSignInComponent = (props) => {
                 author: '',
                 payload: JSON.stringify({email: emailValue, password: passwordValue})
             }, (information) => {
-                let { status, message, infor } = information;
+                let { status, infor } = information;
 
                 // CHUYỂN VỀ TRANG DANH SÁCH USER
                 if(status) {
