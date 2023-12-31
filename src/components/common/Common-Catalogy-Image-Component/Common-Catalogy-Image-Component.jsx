@@ -22,7 +22,7 @@ const CommonCatalogyImageComponent = (props) => {
             },
             (infor) => {
 
-                let { status, message } = infor;
+                let { status } = infor;
                 if(status) {
                     navigate(`/${props.endpoint}s`);
                 }

@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import classes from "./Common-Pagination-Component.module.css";
