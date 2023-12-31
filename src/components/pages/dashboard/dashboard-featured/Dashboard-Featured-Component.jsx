@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
@@ -22,7 +22,7 @@ const DashboardFeaturedComponent = (props) => {
     const { httpMethod } = useHttp();
 
     // PHƯƠNG THỨC LOAD FEATURED
-    const loadFeaturedHandler = async() => {
+    const loadFeaturedHandler = useCallback(async() => {
         httpMethod({
             url: `${config.URI}/api/admin/featured/${pagination.category.elementOfPage}/${(pagination.category.elementOfPage * pagination.category.currentPage)}`,
             method: 'GET',
@@ -33,7 +33,11 @@ const DashboardFeaturedComponent = (props) => {
             let { status, featureds } = infor;
             setFeatureds(status? featureds : []);
         })
-    }
+    }, [
+        httpMethod,
+        pagination.category.elementOfPage,
+        pagination.category.currentPage
+    ])
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
@@ -43,7 +47,7 @@ const DashboardFeaturedComponent = (props) => {
             loadFeaturedHandler();
         }
 
-    }, [reload, pagination.featured.currentPage])
+    }, [reload, pagination.featured.currentPage, loadFeaturedHandler, dispatch])
 
     // REDIRECT ĐẾN TRANG THÊM MỚI FEATURED
     const navigateNewFeatured = (event) => {

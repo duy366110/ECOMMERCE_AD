@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
@@ -22,7 +22,7 @@ const DashboardCategoryComponent = (props) => {
     const { httpMethod } = useHttp();
 
     // PHƯƠNG THỨC LOAD CATEGORY
-    const loadCategoryHandler = async() => {
+    const loadCategoryHandler = useCallback(async() => {
         httpMethod({
             url: `${config.URI}/api/admin/category/${pagination.category.elementOfPage}/${(pagination.category.elementOfPage * pagination.category.currentPage)}`,
             method: 'GET',
@@ -35,7 +35,11 @@ const DashboardCategoryComponent = (props) => {
                 setCategories(categories);
             }
         })
-    }
+    }, [
+        httpMethod,
+        pagination.category.elementOfPage,
+        pagination.category.currentPage
+    ])
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
@@ -45,7 +49,7 @@ const DashboardCategoryComponent = (props) => {
             loadCategoryHandler();
         }
 
-    }, [reload, pagination.category.currentPage, dispatch])
+    }, [reload, pagination.category.currentPage, loadCategoryHandler, dispatch])
 
     // REDIRECT ĐÉN TRANG THÊM MỚI CATEGORY
     const navigateNewCategory = (event) => {

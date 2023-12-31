@@ -31,7 +31,7 @@ const DashboardEditCategoryComponent = (props) => {
             setCategory(category);
             titleDefaultVal(category.title);
         }
-    }, [])
+    }, [loader])
 
     // PHƯƠNG THỨC CẬP NHẬT THÔNG TIN CATEGORY
     const editCategoryHandler = (event) => {
