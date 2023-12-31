@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import config from "../../../../configs/config.env";
@@ -24,7 +24,7 @@ const DashboardUserComponent = (props) => {
     const [reload, setReload] = useState(false);
 
     // LẤY THÔNG TIN VÀ CẬP NHẬT USER
-    const getUsers = async () => {
+    const getUsers = useCallback(async () => {
         let { status, amount } = loader;
 
         if(status) {
@@ -42,7 +42,7 @@ const DashboardUserComponent = (props) => {
                 }
             })
         }
-    }
+    }, [loader])
 
     // LOADER THÔNG TIN USER
     useEffect(() => {
