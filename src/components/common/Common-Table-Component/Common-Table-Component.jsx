@@ -94,6 +94,23 @@ const CommonTableComponent = (props) => {
                     )
                   })}
 
+                  {/* PHẦN NỘI DUNG CỦA FEATURED */}
+                  {props?.type === 'featured' && props?.list.length > 0 && props?.list.map((elm, index) => {
+                    return (
+                      <tr key={elm._id}>
+                        <th scope="row">{((pagination.category.elementOfPage * pagination.category.currentPage) + index) + 1}</th>
+                        <td>{elm.title}</td>
+
+                        {auth.role === 'Admin' && (
+                          <td>
+                            <CommonButtonComponent click={props.edit} kind="contained" title="Edit"  type="button" id={elm._id}/>
+                            <CommonButtonComponent click={props.delete} kind="contained" title="Delete"  type="button" id={elm._id}/>
+                          </td>
+                        )}
+                      </tr>
+                    )
+                  })}
+
                   {/* PHẦN NỘI DUNG BẢNG  PRODUCT */}
                   {props?.type === 'product' && props?.list.length > 0 && props?.list.map((elm, index) => {
                     return (
