@@ -30,18 +30,22 @@ const DashboardCategoryComponent = (props) => {
             payload: null,
             customForm: false
         }, (infor) => {
-            let { status, message, categories } = infor;
-            setCategories(categories);
+            let { status, categories } = infor;
+            if(status) {
+                setCategories(categories);
+            }
         })
     }
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
-        let { status, messahe, amount} = loader;
-        dispatch(updateElementToTalCategory({amount}));
-        loadCategoryHandler();
+        let { status, amount} = loader;
+        if(status) {
+            dispatch(updateElementToTalCategory({amount}));
+            loadCategoryHandler();
+        }
 
-    }, [reload, pagination.category.currentPage])
+    }, [reload, pagination.category.currentPage, dispatch])
 
     // REDIRECT ĐÉN TRANG THÊM MỚI CATEGORY
     const navigateNewCategory = (event) => {
@@ -66,7 +70,7 @@ const DashboardCategoryComponent = (props) => {
                 payload: JSON.stringify({category: id}),
                 customForm: false
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 if(status) {
                     setReload(!reload);
@@ -93,7 +97,7 @@ const DashboardCategoryComponent = (props) => {
                     <CommonTableComponent edit={editCategoryHandler} delete={deleteCategoryHandler} head={HeadTable} list={categories} type="category"/>
                 )}
 
-                {categories.length == 0 && (<h2 className="blank">Not found categories</h2>)}
+                {categories.length === 0 && (<h2 className="blank">Not found categories</h2>)}
 
                 <CommonPaginationComponent
                     click={paginationHandler}
