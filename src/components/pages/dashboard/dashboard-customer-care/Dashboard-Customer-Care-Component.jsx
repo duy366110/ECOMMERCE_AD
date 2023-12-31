@@ -151,7 +151,7 @@ const DashboardCustomerCareComponent = (props) => {
 
 
 
-    }, [])
+    }, [socketSlice.socket, auth.token])
 
     return (
         <div className={classes['dashboard-customer-care-component']}>

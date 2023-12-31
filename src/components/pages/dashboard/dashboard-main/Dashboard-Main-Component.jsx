@@ -16,7 +16,6 @@ const DashboardMainComponent = (props) => {
     const dispatch = useDispatch();
     const pagination = useSelector(state => state.pagination);
 
-    const [reload, setReload] = useState(false);
     const [ amoutUser, setAmountUser] = useState(0);
     const [orders, setOrders] = useState([]);
     const [resumTotalOrder, setResumTotalOrder] = useState(0);
@@ -31,7 +30,7 @@ const DashboardMainComponent = (props) => {
             payload: null,
             customForm: false
         }, (infor) => {
-            let { status, message, orders } = infor;
+            let { status, orders } = infor;
 
             if(status) {                
 
@@ -51,11 +50,13 @@ const DashboardMainComponent = (props) => {
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
         let { status, amounUser, amountOrder} = loader;
-        setAmountUser(amounUser);
-        dispatch(updateElementToTalOrder({amountOrder}));
-        loadOrderHandler();
+        if(status) {
+            setAmountUser(amounUser);
+            dispatch(updateElementToTalOrder({amountOrder}));
+            loadOrderHandler();
+        }
 
-    }, [reload, pagination.order.currentPage])
+    }, [dispatch, loadOrderHandler, loader, pagination.order.currentPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {

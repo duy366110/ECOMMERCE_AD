@@ -8,7 +8,7 @@ const DashboardCustomerCareChatContentComponent = (props) => {
     const socketSlice = useSelector((state) => state.socket);
     const messageRef = useRef();
 
-    const {resetValue: messageRestval, value: messageValue, valid: messageValid, onBlur: messageBlur, onChange: messageChange} = useValidation(['require']);
+    const {resetValue: messageRestval, value: messageValue, onChange: messageChange} = useValidation(['require']);
 
     // THỰC HIỆN GỬI TIN NHẮN ĐẾN KHÁCH HÀNG - CẦN TƯ VẤN
     const sendMessageToClinentHandler = (event) => {
