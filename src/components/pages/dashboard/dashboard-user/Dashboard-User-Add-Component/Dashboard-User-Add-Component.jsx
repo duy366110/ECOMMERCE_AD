@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useNavigate, useLoaderData } from "react-router-dom";
 import config from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
@@ -34,17 +34,17 @@ const DashboardUserAddComponent = (props) => {
     const {value: roleValue, valid: roleValid, onBlur: roleBlur, onChange: roleChange} = useValidation(['require']);
 
     // LẤY VỀ THÔNG TIN ROLES
-    const getRoles = async () => {
-        let { status, message, roles } = loader;
+    const getRoles = useCallback(async () => {
+        let { status, roles } = loader;
         if(status) {
             setRoles(roles)
         }
-    }
+    }, [loader])
 
     // THỰC HIỆN LOADER ROLES LẦN ĐÂU TẢI TRANG
     useEffect(() => {
         getRoles();
-    }, [])
+    }, [getRoles])
 
     // THỰC HIỆN TẠO MỚI USER
     const createUserHandler = async (event) => {
@@ -101,7 +101,7 @@ const DashboardUserAddComponent = (props) => {
                 payload: JSON.stringify(user)
 
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
                 if(status) {
                     navigate('/users');
                 }

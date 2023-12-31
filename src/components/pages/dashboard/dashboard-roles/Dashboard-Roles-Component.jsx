@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
@@ -23,8 +23,8 @@ const DashboardRolesComponent = (props) => {
     const [reload, setReload] = useState(false);
 
     // LẤY THÔNG TIN VÀ CẬP NHẬT ROLE
-    const getRoles = async () => {
-        let { status, message, amount } = loader;
+    const getRoles = useCallback(async () => {
+        let { status, amount } = loader;
 
         if(status) {
             dispatch(updateElementToTalRole({amount}));
@@ -35,16 +35,18 @@ const DashboardRolesComponent = (props) => {
                 author: '',
                 payload: null
             }, (infor) => {
-                let { status, message, roles } = infor;
-                setRoles(roles);
+                let { status, roles } = infor;
+                if(status) {
+                    setRoles(roles);
+                }
             })
         }
-    }
+    }, [loader])
 
     // LOADER THÔNG TIN ROLE
     useEffect(() => {
         getRoles();
-    }, [reload, pagination.role.currentPage])
+    }, [reload, getRoles, pagination.role.currentPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
@@ -74,7 +76,7 @@ const DashboardRolesComponent = (props) => {
                 author: '',
                 payload: JSON.stringify({role: id})
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 if(status) {
                     setReload(!reload);
@@ -95,7 +97,7 @@ const DashboardRolesComponent = (props) => {
                     <CommonTableComponent edit={editRoleHandler} delete={deleteRoleHandler} head={HeadTable} list={roles} type="role"/>
                 )}
 
-                {roles.length == 0 && (<h2 className="blank">Not found role</h2>)}
+                {roles.length === 0 && (<h2 className="blank">Not found role</h2>)}
 
                 <CommonPaginationComponent
                     click={paginationHandler}

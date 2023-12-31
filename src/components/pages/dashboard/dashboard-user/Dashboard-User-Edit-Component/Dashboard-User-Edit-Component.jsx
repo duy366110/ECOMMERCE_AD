@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useNavigate, useParams, useLoaderData } from 'react-router-dom';
 import config from "../../../../../configs/config.env";
 import useValidation from '../../../../../hook/use-validation';
@@ -31,10 +31,9 @@ const DashboardUserEditComponent = (props) => {
     const {defaultValue: roleDefaultVal, value: roleValue, valid: roleValid, onBlur: roleBlur, onChange: roleChange} = useValidation(['require']);
 
     // THỰC BINDING DATA LÊN TEMPLATE
-    const mapper = () => {
+    const mapper = useCallback(() => {
         if(loader) {
             let { user, roles } = loader;
-            console.log(user);
             
             nameDefaultVal(user.username);
             fullNameDefaultVal(user.fullname);
@@ -44,7 +43,7 @@ const DashboardUserEditComponent = (props) => {
             roleDefaultVal(user.role._id);
             setRoles(roles);
         }
-    }
+    }, [loader])
 
     useEffect(() => {
         mapper();
