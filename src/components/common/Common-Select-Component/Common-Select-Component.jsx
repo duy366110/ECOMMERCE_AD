@@ -26,7 +26,7 @@ const CommonSelectComponent = React.forwardRef((props, ref) => {
                     return (
                         <option
                             key={option._id}
-                            selected={option._id.toString() == props.value? true : false} value={option._id}>
+                            selected={option._id.toString() === props.value? true : false} value={option._id}>
                                 {option.hasOwnProperty('name')? option.name : option.title}
                         </option>
                     )
