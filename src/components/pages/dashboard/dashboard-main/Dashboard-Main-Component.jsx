@@ -22,7 +22,7 @@ const DashboardMainComponent = (props) => {
     const { httpMethod } = useHttp();
 
     // PHƯƠNG THỨC LOAD ORDER
-    const loadOrderHandler = useCallback(async() => {
+    const loadOrderHandler = async() => {
         httpMethod({
             url: `${config.URI}/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
             method: 'GET',
@@ -45,12 +45,7 @@ const DashboardMainComponent = (props) => {
                 setOrders(orders);
             }
         })
-    }, [
-        httpMethod,
-        pagination.order.elementOfPage,
-        pagination.order.currentPage,
-
-    ])
+    }
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
@@ -61,7 +56,7 @@ const DashboardMainComponent = (props) => {
             loadOrderHandler();
         }
 
-    }, [dispatch, loadOrderHandler, loader, pagination.order.currentPage])
+    }, [loader, pagination.order.currentPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {

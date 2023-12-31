@@ -7,6 +7,6 @@ const environement = {
         DEV: 'http://localhost:5000',
         PRO: 'https://ecommerce-3121.onrender.com'
     },
-    MODEL: 'PRO' // DEV
+    MODEL: 'DEV' // PRO
 }
 export default environement;
