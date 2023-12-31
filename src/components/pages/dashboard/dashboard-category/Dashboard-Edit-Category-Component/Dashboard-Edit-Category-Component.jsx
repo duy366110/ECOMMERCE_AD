@@ -19,13 +19,13 @@ const DashboardEditCategoryComponent = (props) => {
 
     const { httpMethod } = useHttp();
     const {defaultValue: titleDefaultVal, value: titleValue, valid: titleValid, onBlur: titleBlur, onChange: titleChange} = useValidation(['require']);
-    const {value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
+    const {valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
 
 
     // PHƯƠNG THỨC CHẠY LOADER CATEGORY
     useEffect(() => {
         // THỰC HIỆN LOAD GIÁ TRỊ HIỆN CÓ CỦA CATEGORY
-        let { status, message, category } = loader;
+        let { status, category } = loader;
 
         if(status) {
             setCategory(category);
@@ -64,7 +64,7 @@ const DashboardEditCategoryComponent = (props) => {
                 customForm: true
             },
                 (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 if(status) {
                     navigate("/categorys");
