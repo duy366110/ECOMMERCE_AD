@@ -117,9 +117,9 @@ const CommonTableComponent = (props) => {
                         <th scope="row">{((pagination.product.elementOfPage * pagination.product.currentPage) + index) + 1}</th>
                         <td>{elm.name}</td>
                         <td>{Number(elm?.price.$numberDecimal).toFixed(3)}</td>
-                        <td>
+                        {/* <td>
                           <img src={elm?.images[0]} alt="image product" />
-                        </td>
+                        </td> */}
                         <td>{elm.category?.title}</td>
                         <td>{elm.quantity}</td>
                         <td>{elm.ref}</td>

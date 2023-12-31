@@ -7,7 +7,7 @@ import CommonButtonComponent from '../../../../common/Common-Button-Component/Co
 import CommonInputComponent from '../../../../common/Common-Input-Component/Common-Input-Component';
 import CommonSelectComponent from '../../../../common/Common-Select-Component/Common-Select-Component';
 import CommonTextareaComponent from '../../../../common/Common-Textarea-Component/Common-Textarea-Component';
-import CommonCatalogyImageComponent from '../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component';
+// import CommonCatalogyImageComponent from '../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component';
 import classes from "./Dashboard-Edit-Product-Component.module.css";
 
 const DashboardEditProductComponent = (props) => {

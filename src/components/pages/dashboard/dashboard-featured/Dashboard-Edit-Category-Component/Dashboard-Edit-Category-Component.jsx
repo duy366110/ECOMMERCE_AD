@@ -3,7 +3,7 @@ import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import config from "../../../../../configs/config.env";
 import useValidation from "../../../../../hook/use-validation";
 import useHttp from "../../../../../hook/use-http";
-import CommonCatalogyImageComponent from "../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component";
+// import CommonCatalogyImageComponent from "../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component";
 import CommonInputComponent from "../../../../common/Common-Input-Component/Common-Input-Component";
 import CommonButtonComponent from "../../../../common/Common-Button-Component/Common-Button-Component";
 import classes from "./Dashboard-Edit-Category-Component.module.css";
