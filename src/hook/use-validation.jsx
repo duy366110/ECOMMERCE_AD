@@ -5,7 +5,7 @@ const regexPhone = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
 
 const valid = (key, value) => {
     if(key === 'require') {
-        if(!(value.trim() == 'DEFAULT') && value.trim().length) {
+        if(!(value.trim() === 'DEFAULT') && value.trim().length) {
 
             return {
                 status: true,

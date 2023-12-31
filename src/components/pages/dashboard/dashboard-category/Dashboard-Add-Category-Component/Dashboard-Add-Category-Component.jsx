@@ -18,7 +18,7 @@ const DashboardAddCategoryComponent = (props) => {
     const { httpMethod } = useHttp();
     const {value: titleValue, valid: titleValid, onBlur: titleBlur, onChange: titleChange} = useValidation(['require']);
     const {value: desValue, valid: desValid, onBlur: desBlur, onChange: desChange} = useValidation([]);
-    const {value: photosValue, valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
+    const { valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
 
     // PHƯƠNG THỨC TẠO MỚI CATEGORY
     const newCategoryHandler = async (event) => {
@@ -51,7 +51,7 @@ const DashboardAddCategoryComponent = (props) => {
                 customForm: true
             },
                 (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 if(status) {
                     navigate("/categorys");
