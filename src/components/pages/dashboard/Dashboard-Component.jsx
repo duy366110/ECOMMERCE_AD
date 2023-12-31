@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import DashboardheaderComponent from "./utils/Dashboard-Header-Component/Dashboard-Header-Component";
 import DashboardTabComponent from "./utils/Dashboard-Tab-Component/Dashboard-Tab-Component";

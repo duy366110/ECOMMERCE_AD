@@ -8,6 +8,13 @@ const initState = {
         currentPage: 0,
     },
 
+    // FEATURED
+    featured: {
+        elementOfPage: 5,
+        elemtItemsPagination: 0,
+        currentPage: 0,
+    },
+
     // PRODUCT
     product: {
         elementOfPage: 5,
@@ -73,6 +80,43 @@ const paginationslice = createSlice({
 
                     default:
                         state.category.currentPage = Number(page);
+                        break
+                }
+            },
+        
+        // FEATURED
+            // CẬP NHẬT SỐ LƯỢNG NỘI DUNG HIỆN CÓ CỦA TRANG FEATURED
+            updateElementToTalFeatured: (state, action) => {
+                let { amount } = action.payload;
+                state.featured.elemtItemsPagination = Math.ceil(Number(amount) / state.featured.elementOfPage);
+            },
+
+            // PAGINATION CẬP NHẬT TRANG HIỆN TẠI CỦA TRANG FEATURED
+            updateCurrentPageFeatured: (state, action) => {
+                let { page } = action.payload;
+
+                switch(page) {
+                    case 'next':
+                        if(state.featured.currentPage === (state.featured.elemtItemsPagination - 1)) {
+                            state.featured.currentPage = 0;
+
+                        } else {
+                            state.featured.currentPage += 1;
+                        }
+
+                        break
+
+                    case 'previous':
+                        if(state.featured.currentPage === 0) {
+                            state.featured.currentPage = (state.featured.elemtItemsPagination - 1);
+
+                        } else {
+                            state.featured.currentPage -= 1;
+                        }
+                        break
+
+                    default:
+                        state.featured.currentPage = Number(page);
                         break
                 }
             },
@@ -233,6 +277,10 @@ export const {
     // CATEGORY
     updateElementToTalCategory,
     updateCurrentPageCategory,
+
+    // FEATURED
+    updateElementToTalFeatured,
+    updateCurrentPageFeatured,
 
     // PRODUCT
     updateElementToTalProduct,
