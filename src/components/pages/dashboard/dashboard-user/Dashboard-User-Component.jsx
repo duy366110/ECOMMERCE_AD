@@ -25,7 +25,7 @@ const DashboardUserComponent = (props) => {
 
     // LẤY THÔNG TIN VÀ CẬP NHẬT USER
     const getUsers = async () => {
-        let { status, message, amount } = loader;
+        let { status, amount } = loader;
 
         if(status) {
             dispatch(updateElementToTalUser({amount}));
@@ -36,8 +36,10 @@ const DashboardUserComponent = (props) => {
                 author: '',
                 payload: null
             }, (infor) => {
-                let { status, message, users } = infor;
-                setUsers(users);
+                let { status, users } = infor;
+                if(status) {
+                    setUsers(users);
+                }
             })
         }
     }
@@ -46,7 +48,7 @@ const DashboardUserComponent = (props) => {
     useEffect(() => {
         getUsers();
 
-    }, [reload, pagination.user.currentPage])
+    }, [reload, getUsers, pagination.user.currentPage])
 
     // CHUYỂN ĐẾN TRANG NEW
     const navigateAddUser = (event) => {
@@ -71,7 +73,7 @@ const DashboardUserComponent = (props) => {
                 author: '',
                 payload: JSON.stringify({user: id})
             }, (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 if(status) {
                     setReload(!reload);
@@ -98,7 +100,7 @@ const DashboardUserComponent = (props) => {
                     <CommonTableComponent edit={editAccountHandler} delete={deleteAccountHandler} head={HeadTable} list={users} type="user"/>
                 )}
 
-                {users.length == 0 && (<h2 className="blank">Not found users</h2>)}
+                {users.length === 0 && (<h2 className="blank">Not found users</h2>)}
 
                 <CommonPaginationComponent
                     click={paginationHandler}
