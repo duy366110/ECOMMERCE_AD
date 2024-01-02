@@ -23,12 +23,15 @@ const popupslice = createSlice({
             state.message.status = false;
             state.message.content = '';
         },
-        toggleLoader: (state, action) => {
-            state.loader.status = !state.loader.status;
+        openLoader: (state) => {
+            state.loader.status = true
+        },
+        closeLoader: (state) => {
+            state.loader.status = false
         }
     }
 })
 
-export const {messageOpen, messageClose, toggleLoader} = popupslice.actions;
+export const {messageOpen, messageClose, openLoader, closeLoader} = popupslice.actions;
 
 export default popupslice.reducer;
