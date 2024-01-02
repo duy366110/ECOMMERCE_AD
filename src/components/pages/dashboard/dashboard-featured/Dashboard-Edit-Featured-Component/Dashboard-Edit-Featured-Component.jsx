@@ -1,39 +1,57 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate, useLoaderData, useParams } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import config from "../../../../../configs/config.env";
 import useValidation from "../../../../../hook/use-validation";
 import useHttp from "../../../../../hook/use-http";
 // import CommonCatalogyImageComponent from "../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component";
 import CommonInputComponent from "../../../../common/Common-Input-Component/Common-Input-Component";
 import CommonButtonComponent from "../../../../common/Common-Button-Component/Common-Button-Component";
-import classes from "./Dashboard-Edit-Category-Component.module.css";
+import classes from "./Dashboard-Edit-Featured-Component.module.css";
 
-const DashboardEditCategoryComponent = (props) => {
+const DashboardEditFeaturedComponent = (props) => {
     const navigate = useNavigate();
     const loader = useLoaderData();
-    const params = useParams();
+    // const params = useParams();
+
     const titleRef = useRef();
+    const desRef = useRef();
+    const colorRef = useRef();
     const photosRef = useRef();
 
-    const [category, setCategory] = useState(null);
+    const [feature, setFeature] = useState(null);
 
     const { httpMethod } = useHttp();
-    const {defaultValue: titleDefaultVal, value: titleValue, valid: titleValid, onBlur: titleBlur, onChange: titleChange} = useValidation(['require']);
-    const {valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
+    
+    const {
+        defaultValue: titleDefault,
+        value: titleValue, valid: titleValid,
+        onBlur: titleBlur, onChange: titleChange} = useValidation(['require']);
+
+    const {
+        defaultValue: desDefault,
+        value: desValue, valid: desValid,
+        onBlur: desBlur, onChange: desChange} = useValidation([]);
+
+    const {
+        defaultValue: colorDefault,
+        value: colorValue, valid: colorValid,
+        onBlur: colorBlur, onChange: colorChange} = useValidation([]);
+
+    const {
+        valid: photosValid, onBlur: photosBlur, onChange: photosChange} = useValidation([]);
 
 
-    // PHƯƠNG THỨC CHẠY LOADER CATEGORY
     useEffect(() => {
-        // THỰC HIỆN LOAD GIÁ TRỊ HIỆN CÓ CỦA CATEGORY
-        let { status, category } = loader;
-
+        let { status, feature } = loader;
         if(status) {
-            setCategory(category);
-            titleDefaultVal(category.title);
+            setFeature(feature);
+            titleDefault(feature.title);
+            desDefault(feature.desc);
+            colorDefault(feature.titleColor);
         }
-    }, [loader])
+    }, [loader, titleDefault, desDefault, colorDefault])
 
-    // PHƯƠNG THỨC CẬP NHẬT THÔNG TIN CATEGORY
+
     const editCategoryHandler = (event) => {
         event.preventDefault();
 
@@ -43,31 +61,31 @@ const DashboardEditCategoryComponent = (props) => {
 
         let photosInput = photosRef.current.input.current;
 
-        if(titleValid.status) {
-
-            // TẠO FORM DATA
-            let categoryForm = new FormData();
-            categoryForm.append('title', titleValue);
-            categoryForm.append('category', params.category);
+        if(titleValid.status && feature._id) {
+            let featuredForm = new FormData();
+            featuredForm.append('feature', feature._id);
+            featuredForm.append('title', titleValue);
+            featuredForm.append('des', desValue);
+            featuredForm.append('color', colorValue);
 
             if(photosInput.files.length) {
                 for(let file of photosInput.files) {
-                    categoryForm.append('photos', file);
+                    featuredForm.append('photos', file);
                 }
             }
 
             httpMethod({
-                url: `${config.URI}/api/admin/category`,
+                url: `${config.URI}/api/admin/featured`,
                 method: 'PATCH',
                 author: '',
-                payload: categoryForm,
+                payload: featuredForm,
                 customForm: true
             },
                 (infor) => {
-                let { status, message } = infor;
+                let { status } = infor;
 
                 if(status) {
-                    navigate("/categorys");
+                    navigate("/featured");
                 }
             })
         }
@@ -82,25 +100,33 @@ const DashboardEditCategoryComponent = (props) => {
                         <div className="col-6">
                             <CommonInputComponent
                                 ref={titleRef} blur={titleBlur}
-                                change={titleChange} label="title category"
+                                change={titleChange} label="title featured"
                                 value={titleValue} valid={titleValid}/>
                         </div>
 
                         <div className="col-6">
                             <CommonInputComponent
-                                ref={photosRef} type="file"
-                                blur={photosBlur} change={photosChange}
-                                label="Images" valid={photosValid} />
+                                ref={desRef} blur={desBlur}
+                                change={desChange} label="Featured description"
+                                value={desValue} valid={desValid}/>
                         </div>
 
-                        {category && category?.images.length > 0 && (
-                            <div className="col-12">
-                                {/* <CommonCatalogyImageComponent images={category?.images} endpoint="category" id={category._id} /> */}
-                            </div>
-                        )}
+                        <div className="col-6">
+                            <CommonInputComponent
+                                ref={colorRef} blur={colorBlur}
+                                change={colorChange} label="Featured color"
+                                value={colorValue} valid={colorValid}/>
+                        </div>
 
                         <div className="col-12">
-                            <CommonButtonComponent kind="contained" title="Update category"  type="submit"/>
+                            <CommonInputComponent
+                                ref={photosRef} type="file"
+                                blur={photosBlur} change={photosChange}
+                                label="Photo featured" valid={photosValid} />
+                        </div>
+
+                        <div className="col-12">
+                            <CommonButtonComponent kind="contained" title="Update feature"  type="submit"/>
                         </div>
                     </div>
                 </form>
@@ -110,15 +136,14 @@ const DashboardEditCategoryComponent = (props) => {
     )
 }
 
-export default DashboardEditCategoryComponent;
+export default DashboardEditFeaturedComponent;
 
 // LOAD THÔNG CATEGORY TRƯỚC KHI CẬP NHẬT
 export const loader = (request, params) => {
     return new Promise(async(resolve, reject) => {
         try {
-            console.log(request);
-            let { category } = params;
-            let res = await fetch(`${config.URI}/api/admin/category/${category}`, {
+            let { feature } = params;
+            let res = await fetch(`${config.URI}/api/admin/featured/${feature}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
