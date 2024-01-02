@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
 import config from "../../../../configs/config.env";
-import useHttp from "../../../../hook/use-http";
+import { messageOpen, messageClose, openLoader, closeLoader } from "../../../../store/store-popup";
 import { updateElementToTalOrder, updateCurrentPageOrder } from "../../../../store/store-pagination";
 import DashboardResumeComponent from "../utils/Dashboard-Resume-Component/Dashboard-Resume-Component";
 import CommonTableComponent from "../../../common/Common-Table-Component/Common-Table-Component";
@@ -19,7 +19,8 @@ const DashboardMainComponent = (props) => {
     const [ amoutUser, setAmountUser] = useState(0);
     const [orders, setOrders] = useState([]);
     const [resumTotalOrder, setResumTotalOrder] = useState(0);
-    const { httpMethod } = useHttp();
+
+
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
@@ -28,31 +29,48 @@ const DashboardMainComponent = (props) => {
         if(status) {
             setAmountUser(amounUser);
             dispatch(updateElementToTalOrder({amountOrder}));
-            httpMethod({
-                url: `${config.URI}/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`,
-                method: 'GET',
-                author: '',
-                payload: null,
-                customForm: false
-            }, (infor) => {
-                let { status, orders } = infor;
-    
-                if(status) {                
-    
-                    for(let orderItem of orders) {
-                        orderItem.total = orderItem?.order.reduce((acc, orderProduct) => {
-                            acc += Number(orderProduct.product?.price.$numberDecimal) * Number(orderProduct?.quantity);
-                            return acc;
-                        }, 0);
-    
-                        setResumTotalOrder((state) => state + orderItem.total);
+
+            const http = async () => {
+                try {
+                    dispatch(openLoader());
+                    let res = await fetch(`${config.URI}/api/admin/order/${pagination.order.elementOfPage}/${(pagination.order.elementOfPage * pagination.order.currentPage)}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if(!res.ok) {
+                        let infor = await res.json();
+                        throw Error(infor.message);
                     }
-                    setOrders(orders);
+
+                    let { status, orders } = await res.json();
+                    if(status) {                
+                        for(let orderItem of orders) {
+                            orderItem.total = orderItem?.order.reduce((acc, orderProduct) => {
+                                acc += Number(orderProduct.product?.price.$numberDecimal) * Number(orderProduct?.quantity);
+                                return acc;
+                            }, 0);
+        
+                            setResumTotalOrder((state) => state + orderItem.total);
+                        }
+                        setOrders(orders);
+                    }
+
+                } catch (error) {
+                    dispatch(messageOpen({content: error.message}));
+                    setTimeout(() => {
+                        dispatch(messageClose());
+                    }, 2500)
                 }
-            })
+                dispatch(closeLoader());
+            }
+
+            http();
         }
         
-    }, [loader, dispatch, httpMethod, pagination.order.currentPage, pagination.order.elementOfPage])
+    }, [loader, dispatch, pagination.order.currentPage, pagination.order.elementOfPage])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
