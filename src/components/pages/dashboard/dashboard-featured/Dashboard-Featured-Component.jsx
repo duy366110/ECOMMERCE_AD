@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
+import useHttp from "../../../../hook/use-http";
 import { messageOpen, messageClose, openLoader, closeLoader } from "../../../../store/store-popup";
 import { updateElementToTalFeatured, updateCurrentPageFeatured } from "../../../../store/store-pagination";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
@@ -19,6 +20,8 @@ const DashboardFeaturedComponent = (props) => {
 
     const [reload, setReload] = useState(false);
     const [featureds, setFeatureds] = useState([]);
+
+    const { httpMethod } = useHttp();
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
@@ -72,24 +75,23 @@ const DashboardFeaturedComponent = (props) => {
 
     // PHƯƠNG THỨC XOÁ FEATURED
     const deleteFeaturedHandler = (event) => {
-        setReload(!reload);
-        // let { id } = event.target.dataset;
+        let { id } = event.target.dataset;
 
-        // if(id && window.confirm("Are you sure delete category")) {;
-        //     httpMethod({
-        //         url: `${config.URI}/api/admin/category`,
-        //         method: 'DELETE',
-        //         author: '',
-        //         payload: JSON.stringify({category: id}),
-        //         customForm: false
-        //     }, (infor) => {
-        //         let { status, message } = infor;
+        if(id && window.confirm("Are you sure delete feature")) {;
+            httpMethod({
+                url: `${config.URI}/api/admin/featured`,
+                method: 'DELETE',
+                author: '',
+                payload: JSON.stringify({feature: id}),
+                customForm: false
+            }, (infor) => {
+                let { status } = infor;
 
-        //         if(status) {
-        //             setReload(!reload);
-        //         }
-        //     })
-        // }
+                if(status) {
+                    setReload(!reload);
+                }
+            })
+        }
     }
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
