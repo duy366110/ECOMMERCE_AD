@@ -3,6 +3,7 @@ import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import config from "../../../../configs/config.env";
 import useHttp from '../../../../hook/use-http';
+import { messageOpen, messageClose, openLoader, closeLoader } from "../../../../store/store-popup";
 import { updateElementToTalUser, updateCurrentPageUser } from "../../../../store/store-pagination";
 import CommonTableComponent from '../../../common/Common-Table-Component/Common-Table-Component';
 import CommonButtonComponent from '../../../common/Common-Button-Component/Common-Button-Component';
@@ -29,23 +30,38 @@ const DashboardUserComponent = (props) => {
 
         if(status) {
             dispatch(updateElementToTalUser({amount}));
+            const http = async () => {
+                try {
+                    dispatch(openLoader());
+                    let res = await fetch(`${config.URI}/api/admin/user/${pagination.user.elementOfPage}/${(pagination.user.elementOfPage * pagination.user.currentPage)}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
 
-            httpMethod({
-                url: `${config.URI}/api/admin/user/${pagination.user.elementOfPage}/${(pagination.user.elementOfPage * pagination.user.currentPage)}`,
-                method: 'GET',
-                author: '',
-                payload: null
-            }, (infor) => {
-                let { status, users } = infor;
-                if(status) {
-                    setUsers(users);
+                    if(!res.ok) {
+                        let infor = await res.json();
+                        throw Error(infor.message);
+                    }
+
+                    let { status, users } = await res.json();
+                    setUsers(status? users : []);
+
+                } catch (error) {
+                    dispatch(messageOpen({content: error.message}));
+                    setTimeout(() => {
+                        dispatch(messageClose());
+                    }, 2500)
                 }
-            })
+                dispatch(closeLoader());
+            }
+
+            http();
         }
     }, [
         loader,
         dispatch,
-        httpMethod,
         pagination.user.currentPage,
         pagination.user.elementOfPage
     ])

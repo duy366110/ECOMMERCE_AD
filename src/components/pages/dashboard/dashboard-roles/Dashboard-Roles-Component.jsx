@@ -3,6 +3,7 @@ import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
+import { messageOpen, messageClose, openLoader, closeLoader } from "../../../../store/store-popup";
 import { updateElementToTalRole, updateCurrentPageRole } from "../../../../store/store-pagination";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
 import CommonTableComponent from "../../../common/Common-Table-Component/Common-Table-Component";
@@ -22,29 +23,43 @@ const DashboardRolesComponent = (props) => {
     const [roles, setRoles] = useState([]);
     const [reload, setReload] = useState(false);
 
-    // LẤY THÔNG TIN VÀ CẬP NHẬT ROLE
     const getRoles = useCallback(async () => {
         let { status, amount } = loader;
 
         if(status) {
             dispatch(updateElementToTalRole({amount}));
+            const http = async () => {
+                try {
+                    dispatch(openLoader());
+                    let res = await fetch(`${config.URI}/api/admin/role/${pagination.role.elementOfPage}/${(pagination.role.elementOfPage * pagination.role.currentPage)}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
 
-            httpMethod({
-                url: `${config.URI}/api/admin/role/${pagination.role.elementOfPage}/${(pagination.role.elementOfPage * pagination.role.currentPage)}`,
-                method: 'GET',
-                author: '',
-                payload: null
-            }, (infor) => {
-                let { status, roles } = infor;
-                if(status) {
-                    setRoles(roles);
+                    if(!res.ok) {
+                        let infor = await res.json();
+                        throw Error(infor.message);
+                    }
+
+                    let { status, roles } = await res.json();
+                    setRoles(status? roles : []);
+
+                } catch (error) {
+                    dispatch(messageOpen({content: error.message}));
+                    setTimeout(() => {
+                        dispatch(messageClose());
+                    }, 2500)
                 }
-            })
+                dispatch(closeLoader());
+            }
+
+            http();
         }
     }, [
         loader,
         dispatch,
-        httpMethod,
         pagination.role.elementOfPage,
         pagination.role.currentPage
     ])
@@ -52,7 +67,7 @@ const DashboardRolesComponent = (props) => {
     // LOADER THÔNG TIN ROLE
     useEffect(() => {
         getRoles();
-    }, [reload, getRoles, pagination.role.currentPage])
+    }, [reload, getRoles])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
