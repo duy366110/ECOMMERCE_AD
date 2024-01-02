@@ -25,6 +25,7 @@ const DashboardEditCategoryComponent = lazy(() => import("../components/pages/da
 // FEATURED
 const DashboardFeaturedComponent = lazy(() => import("../components/pages/dashboard/dashboard-featured/Dashboard-Featured-Component"));
 const DashboardAddFeaturedComponent = lazy(() => import("../components/pages/dashboard/dashboard-featured/Dashboard-Add-Featured-Component/Dashboard-Add-Featured-Component"));
+const DashboardEditFeaturedComponent = lazy(() => import("../components/pages/dashboard/dashboard-featured/Dashboard-Edit-Featured-Component/Dashboard-Edit-Featured-Component"));
 
 // PRODUCT
 const DashboardProductComponent = lazy(() => import("../components/pages/dashboard/dashboard-product/Dashboard-Product-Component"));
@@ -95,6 +96,11 @@ const router = createBrowserRouter([
                     {
                         path: "new-featured",
                         element: <Suspense fallback={<p>Loading...</p>}><DashboardAddFeaturedComponent /></Suspense>
+                    },
+                    {
+                        path: "edit-featured/:feature",
+                        loader: ({request, params}) => import("../components/pages/dashboard/dashboard-featured/Dashboard-Edit-Featured-Component/Dashboard-Edit-Featured-Component").then((m) => m.loader(request, params)),
+                        element: <Suspense fallback={<p>Loading...</p>}><DashboardEditFeaturedComponent /></Suspense>
                     },
 
                     // PRODUCT

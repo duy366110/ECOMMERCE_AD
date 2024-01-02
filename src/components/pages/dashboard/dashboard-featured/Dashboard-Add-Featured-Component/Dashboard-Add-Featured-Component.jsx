@@ -95,6 +95,7 @@ const DashboardAddFeaturedComponent = (props) => {
                                 blur={photosBlur} change={photosChange}
                                 label="Photo featured" valid={photosValid} />
                         </div>
+                        
                         <div className="col-12">
                             <CommonButtonComponent kind="contained" title="New featured"  type="submit"/>
                         </div>

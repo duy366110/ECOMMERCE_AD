@@ -69,8 +69,8 @@ const DashboardFeaturedComponent = (props) => {
 
     // REDIRECT ĐẾN TRANG CHỈNH SỬA FEATURED
     const editFeaturedHandler = (event) => {
-        // let { id } = event.target.dataset;
-        // navigate(`/edit-category/${id}`);
+        let { id } = event.target.dataset;
+        navigate(`/edit-featured/${id}`);
     }
 
     // PHƯƠNG THỨC XOÁ FEATURED
