@@ -3,6 +3,7 @@ import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
 import useHttp from "../../../../hook/use-http";
+import { messageOpen, messageClose, openLoader, closeLoader } from "../../../../store/store-popup";
 import { updateElementToTalProduct, updateCurrentPageProduct } from "../../../../store/store-pagination";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
 import CommonTableComponent from "../../../common/Common-Table-Component/Common-Table-Component";
@@ -28,23 +29,37 @@ const DashboardProductComponent = (props) => {
 
         if(status) {
             dispatch(updateElementToTalProduct({amount}));
+            const http = async () => {
+                try {
+                    dispatch(openLoader());
+                    let res = await fetch(`${config.URI}/api/admin/product/${pagination.product.elementOfPage}/${(pagination.product.elementOfPage * pagination.product.currentPage)}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
 
-            httpMethod({
-                url: `${config.URI}/api/admin/product/${pagination.product.elementOfPage}/${(pagination.product.elementOfPage * pagination.product.currentPage)}`,
-                method: 'GET',
-                author: '',
-                payload: null
-            }, (infor) => {
-                let { status, products } = infor;
-                if(status) {
-                    setProducts(products);
-                    
+                    if(!res.ok) {
+                        let infor = await res.json();
+                        throw Error(infor.message);
+                    }
+
+                    let { status, products } = await res.json();
+                    setProducts(status? products : []);
+
+                } catch (error) {
+                    dispatch(messageOpen({content: error.message}));
+                    setTimeout(() => {
+                        dispatch(messageClose());
+                    }, 2500)
                 }
-            })
+                dispatch(closeLoader());
+            }
+
+            http();
         }
     }, [
         loader,
-        httpMethod,
         dispatch,
         pagination.product.elementOfPage,
         pagination.product.currentPage,
@@ -53,7 +68,7 @@ const DashboardProductComponent = (props) => {
     // LOADER THÔNG TIN PRODUCT
     useEffect(() => {
         getProducts();
-    }, [reload, getProducts, pagination.product.currentPage])
+    }, [reload, getProducts])
 
     // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
