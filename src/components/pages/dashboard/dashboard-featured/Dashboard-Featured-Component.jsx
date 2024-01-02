@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import config from "../../../../configs/config.env";
+import { messageOpen, messageClose, openLoader, closeLoader } from "../../../../store/store-popup";
 import { updateElementToTalFeatured, updateCurrentPageFeatured } from "../../../../store/store-pagination";
-import useHttp from "../../../../hook/use-http";
 import CommonButtonComponent from "../../../common/Common-Button-Component/Common-Button-Component";
 import CommonTableComponent from "../../../common/Common-Table-Component/Common-Table-Component";
 import CommonPaginationComponent from "../../../common/Common-Pagination-Component/Common-Pagination-Component";
@@ -19,35 +19,45 @@ const DashboardFeaturedComponent = (props) => {
 
     const [reload, setReload] = useState(false);
     const [featureds, setFeatureds] = useState([]);
-    const { httpMethod } = useHttp();
-
-    // PHƯƠNG THỨC LOAD FEATURED
-    const loadFeaturedHandler = useCallback(async() => {
-        httpMethod({
-            url: `${config.URI}/api/admin/featured/${pagination.category.elementOfPage}/${(pagination.category.elementOfPage * pagination.category.currentPage)}`,
-            method: 'GET',
-            author: '',
-            payload: null,
-            customForm: false
-        }, (infor) => {
-            let { status, featureds } = infor;
-            setFeatureds(status? featureds : []);
-        })
-    }, [
-        httpMethod,
-        pagination.category.elementOfPage,
-        pagination.category.currentPage
-    ])
 
     // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
         let { status, amount} = loader;
         if(status) {
             dispatch(updateElementToTalFeatured({amount}));
-            loadFeaturedHandler();
+
+            const http = async () => {
+                try {
+                    dispatch(openLoader());
+                    let res = await fetch(`${config.URI}/api/admin/featured/${pagination.featured.elementOfPage}/${(pagination.featured.elementOfPage * pagination.featured.currentPage)}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if(!res.ok) {
+                        let infor = await res.json();
+                        throw Error(infor.message);
+                    }
+
+                    let { status, featureds } = await res.json();
+                    console.log(featureds);
+                    setFeatureds(status? featureds : []);
+
+                } catch (error) {
+                    dispatch(messageOpen({content: error.message}));
+                    setTimeout(() => {
+                        dispatch(messageClose());
+                    }, 2500)
+                }
+                dispatch(closeLoader());
+            }
+
+            http();
         }
 
-    }, [loader, reload, pagination.featured.currentPage, loadFeaturedHandler, dispatch])
+    }, [loader, reload, pagination.featured.currentPage, pagination.featured.elementOfPage, dispatch])
 
     // REDIRECT ĐẾN TRANG THÊM MỚI FEATURED
     const navigateNewFeatured = (event) => {
