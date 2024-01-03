@@ -7,7 +7,7 @@ import CommonButtonComponent from '../../../../common/Common-Button-Component/Co
 import CommonInputComponent from '../../../../common/Common-Input-Component/Common-Input-Component';
 import CommonSelectComponent from '../../../../common/Common-Select-Component/Common-Select-Component';
 import CommonTextareaComponent from '../../../../common/Common-Textarea-Component/Common-Textarea-Component';
-// import CommonCatalogyImageComponent from '../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component';
+import CommonCatalogyImageComponent from '../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component';
 import classes from "./Dashboard-Edit-Product-Component.module.css";
 
 const DashboardEditProductComponent = (props) => {
@@ -108,8 +108,6 @@ const DashboardEditProductComponent = (props) => {
                 customForm: true
             }, (infor) => {
                 let { status } = infor;
-                
-                // TẠO CẬP NHẬT PRODUCT THÀNH CÔNG REDIRECT VỀ PRODUCTS PAGE
                 if(status) {
                     navigate("/products");
                 }
@@ -174,21 +172,19 @@ const DashboardEditProductComponent = (props) => {
                                 blur={photosBlur} change={photosChange}
                                 label="photos" valid={photosValid} />
                         </div>
-
-                        <div className="col-12">
-                            {product && product?.images.length > 0 && (
-                                <div className="col-12">
-                                    {/* <CommonCatalogyImageComponent images={product?.images} endpoint="product" id={product._id} /> */}
-                                </div>
-                            )}
-                        </div>
-
                     </div>
 
                     <div>
                         <CommonButtonComponent kind="contained" title="Edit product"  type="submit"/>
                     </div>
                 </form>
+
+                {product && product?.images.length > 0 && (
+                    <CommonCatalogyImageComponent
+                        id={product._id}
+                        endpoint="product"
+                        thumbnails={product.images} />
+                )}
             </div>
         </div>
     )
