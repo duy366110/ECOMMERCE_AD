@@ -3,7 +3,7 @@ import { useNavigate, useLoaderData } from "react-router-dom";
 import config from "../../../../../configs/config.env";
 import useValidation from "../../../../../hook/use-validation";
 import useHttp from "../../../../../hook/use-http";
-// import CommonCatalogyImageComponent from "../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component";
+import CommonCatalogyImageComponent from "../../../../common/Common-Catalogy-Image-Component/Common-Catalogy-Image-Component";
 import CommonInputComponent from "../../../../common/Common-Input-Component/Common-Input-Component";
 import CommonButtonComponent from "../../../../common/Common-Button-Component/Common-Button-Component";
 import classes from "./Dashboard-Edit-Featured-Component.module.css";
@@ -11,7 +11,6 @@ import classes from "./Dashboard-Edit-Featured-Component.module.css";
 const DashboardEditFeaturedComponent = (props) => {
     const navigate = useNavigate();
     const loader = useLoaderData();
-    // const params = useParams();
 
     const titleRef = useRef();
     const desRef = useRef();
@@ -44,6 +43,8 @@ const DashboardEditFeaturedComponent = (props) => {
     useEffect(() => {
         let { status, feature } = loader;
         if(status) {
+            console.log(feature);
+
             setFeature(feature);
             titleDefault(feature.title);
             desDefault(feature.desc);
@@ -131,6 +132,9 @@ const DashboardEditFeaturedComponent = (props) => {
                     </div>
                 </form>
 
+                {feature && feature.images.length > 0 && (
+                    <CommonCatalogyImageComponent thumbnails={feature.images} />
+                )}
             </div>
         </div>
     )

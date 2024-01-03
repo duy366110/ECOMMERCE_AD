@@ -32,11 +32,11 @@ const CommonCatalogyImageComponent = (props) => {
     
     return (
         <div className={classes['common-catalogy-image-component']}>
-            {/* {props?.images.map((photo) => {
+            {props.thumbnails.map((photo, index) => {
                 return (
-                    <img onClick={deleteImage} data-img={photo} src={photo} alt="Thumbnail" />
+                    <img key={index} src={photo} alt="Thumbnail" />
                 )
-            })} */}
+            })}
         </div>
     )
 }
