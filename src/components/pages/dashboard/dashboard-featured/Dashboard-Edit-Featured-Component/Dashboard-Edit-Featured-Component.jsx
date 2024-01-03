@@ -43,8 +43,6 @@ const DashboardEditFeaturedComponent = (props) => {
     useEffect(() => {
         let { status, feature } = loader;
         if(status) {
-            console.log(feature);
-
             setFeature(feature);
             titleDefault(feature.title);
             desDefault(feature.desc);
@@ -133,7 +131,10 @@ const DashboardEditFeaturedComponent = (props) => {
                 </form>
 
                 {feature && feature.images.length > 0 && (
-                    <CommonCatalogyImageComponent thumbnails={feature.images} />
+                    <CommonCatalogyImageComponent
+                        id={feature._id}
+                        endpoint="featured"
+                        thumbnails={feature.images} />
                 )}
             </div>
         </div>
