@@ -15,7 +15,9 @@ const DashboardResumeComponent = (props) => {
                 </span>
             </CommonCardResumeComponent>
 
-            <CommonCardResumeComponent title='Earning of Month' value={Number(props?.totalOrder).toFixed(6).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} currency={true}>
+            <CommonCardResumeComponent
+                title='Earning of Month'
+                value={Number(props?.totalOrder).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} currency={true}>
                 <span className={`${classes['icons']} ${classes['icon-orders']}`}>
                     <AttachMoneyOutlinedIcon />
                 </span>

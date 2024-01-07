@@ -162,6 +162,7 @@ const paginationslice = createSlice({
             // CẬP NHẬT SỐ LƯỢNG NỘI DUNG HIỆN CÓ CỦA TRANG ORDER
             updateElementToTalOrder: (state, action) => {
                 let { amount } = action.payload;
+                console.log(amount);
                 state.order.elemtItemsPagination = Math.ceil(Number(amount) / state.order.elementOfPage);
             },
 
