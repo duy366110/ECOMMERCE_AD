@@ -141,7 +141,11 @@ const CommonTableComponent = (props) => {
                         <td>{elm.email}</td>
                         <td style={{minWidth: '135px'}}>{elm?.phone}</td>
                         <td style={{minWidth: '135px'}}>{elm?.address}</td>
-                        <td style={{minWidth: '135px'}}>{elm?.total.toFixed(6).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} VND</td>
+                        <td style={{minWidth: '135px'}}>
+                          {elm.order.length > 0 && elm.order.reduce((acc, elm) => {
+                            return acc += elm.quantity * elm.product.price.$numberDecimal;
+                          }, 0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} VND
+                        </td>
                         <td style={{minWidth: '135px'}}>Chưa vận chuyển</td>
                         <td style={{minWidth: '135px'}}>Chưa thanh toán</td>
                         <td>

@@ -17,18 +17,18 @@ const DashboardMainComponent = (props) => {
     const pagination = useSelector(state => state.pagination);
 
     const [ amoutUser, setAmountUser] = useState(0);
+    const [amountOrder, setAmountOrder] = useState();
     const [orders, setOrders] = useState([]);
-    const [resumTotalOrder, setResumTotalOrder] = useState(0);
+    const [totalOrder, setTotalOrder] = useState(0);
 
-
-
-    // PHƯƠNG THỨC LOAD VÀ CẬP NHẬT KHI PHÂN TRANG VÀ LẦN ĐẦU LOADER
     useEffect(() => {
 
-        let { status, amounUser, amountOrder} = loader;
+        let { status, amounUser, amountOrder, total} = loader;
         if(status) {
             setAmountUser(amounUser);
-            dispatch(updateElementToTalOrder({amountOrder}));
+            setAmountOrder(amountOrder);
+            setTotalOrder(total);
+            dispatch(updateElementToTalOrder({amount: amountOrder}));
 
             const http = async () => {
                 try {
@@ -46,15 +46,7 @@ const DashboardMainComponent = (props) => {
                     }
 
                     let { status, orders } = await res.json();
-                    if(status) {                
-                        for(let orderItem of orders) {
-                            orderItem.total = orderItem?.order.reduce((acc, orderProduct) => {
-                                acc += Number(orderProduct.product?.price.$numberDecimal) * Number(orderProduct?.quantity);
-                                return acc;
-                            }, 0);
-        
-                            setResumTotalOrder((state) => state + orderItem.total);
-                        }
+                    if(status) {
                         setOrders(orders);
                     }
 
@@ -72,7 +64,6 @@ const DashboardMainComponent = (props) => {
         
     }, [loader, dispatch, pagination.order.currentPage, pagination.order.elementOfPage])
 
-    // SET SỰ KIỆN RENDER INFOR KHI LICK VÀO THANH PAGINATION
     const paginationHandler = (event) => {
         let { pagi } = event.target.closest("#btn-pagi").dataset;
         dispatch(updateCurrentPageOrder({page: pagi}));
@@ -81,7 +72,7 @@ const DashboardMainComponent = (props) => {
     return (
         <div className="dashboard-container">
             <div className={classes['dashboard-main-component']}>
-                <DashboardResumeComponent client={amoutUser} totalOrder={resumTotalOrder} order={orders.length} />
+                <DashboardResumeComponent client={amoutUser} totalOrder={totalOrder} order={amountOrder} />
 
                 {orders.length > 0 && (
                     <CommonTableComponent head={HeadTable} list={orders} type="order"/>
@@ -103,7 +94,7 @@ export default DashboardMainComponent;
 export const loadOrder = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let res = await fetch(`${config.URI}/api/admin/order/amount`, {
+            let res = await fetch(`${config.URI}/api/admin/order/information`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -154,8 +145,9 @@ export const loader = () => {
     return new Promise( async(resolve, reject) => {
         try {
             let data = await Promise.all([loadUser(), loadOrder()]);
-            let [{amount: amounUser}, { amount: amountOrder}] = data;
-            resolve({status: true , amounUser, amountOrder});
+            console.log(data);
+            let [{amount: amounUser}, { amount: amountOrder, total}] = data;
+            resolve({status: true , amounUser, amountOrder, total});
 
         } catch (error) {
             reject({status: false, error});
